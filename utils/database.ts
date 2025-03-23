@@ -1,8 +1,6 @@
 // Database utilities for DenoKV
 
 import { config } from "../config.ts";
-
-import { FeedStore } from "../models/feed.ts";
 import { UserStore } from "../models/user.ts";
 import { ExternalSubscriptionStore } from "../models/external_subscription.ts";
 import { UserCallbackStore } from "../models/user_callback.ts";
@@ -14,7 +12,6 @@ export class Database {
   private kv: Deno.Kv;
 
   // Stores
-  public feeds: FeedStore;
   public users: UserStore;
   public externalSubscriptions: ExternalSubscriptionStore;
   public userCallbacks: UserCallbackStore;
@@ -24,7 +21,6 @@ export class Database {
     this.kv = kv;
 
     // Initialize stores
-    this.feeds = new FeedStore(kv);
     this.users = new UserStore(kv);
     this.externalSubscriptions = new ExternalSubscriptionStore(kv);
     this.userCallbacks = new UserCallbackStore(kv);

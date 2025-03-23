@@ -2,16 +2,12 @@ import { Application, oakCors } from "./deps.ts";
 import type { Context, Next } from "@oak/oak";
 import { config } from "./config.ts";
 
-import { getDatabase } from "./utils/database.ts";
-
 // Import routes
 import router from "./routes/index.ts";
 
 // Import services
 import { WebhookService } from "./services/webhook.ts";
 import { STATUS_CODE } from "@std/http";
-import { Feed } from "./models/feed.ts";
-import { ContentDistributionMessage } from "./models/queue.ts";
 
 // Initialize the application
 const app = new Application();
