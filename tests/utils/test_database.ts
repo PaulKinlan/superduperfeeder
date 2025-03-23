@@ -21,12 +21,6 @@ export async function resetTestDatabase(): Promise<void> {
   const db = await getTestDatabase();
 
   try {
-    // Delete all feeds and feed items
-    const feeds = await db.feeds.getAll();
-    for (const feed of feeds) {
-      await db.feeds.delete(feed.id);
-    }
-
     // Delete the admin user if it exists
     const adminUser = await db.users.getByUsername(testConfig.admin.username);
     if (adminUser) {
@@ -55,7 +49,7 @@ export async function getTestDatabase(): Promise<Database> {
     // Initialize test data
     try {
       const adminUser = await dbInstance.users.getByUsername(
-        testConfig.admin.username,
+        testConfig.admin.username
       );
       if (!adminUser) {
         await initTestData(dbInstance);
