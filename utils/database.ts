@@ -1,7 +1,7 @@
 // Database utilities for DenoKV
 
 import { config } from "../config.ts";
-import { SubscriptionStore } from "../models/subscription.ts";
+
 import { FeedStore } from "../models/feed.ts";
 import { UserStore } from "../models/user.ts";
 import { ExternalSubscriptionStore } from "../models/external_subscription.ts";

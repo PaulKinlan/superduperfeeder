@@ -1,4 +1,3 @@
-import { Subscription } from "./subscription.ts";
 export type ContentDistributionMessage = {
   type: "contentDistribution";
   subscription: Subscription;
@@ -20,7 +19,7 @@ export class Queue {
       delay?: number;
       keysIfUndelivered?: Deno.KvKey[];
       backoffSchedule?: number[];
-    },
+    }
   ): Promise<void> {
     await this.kv.enqueue(data, options);
   }
