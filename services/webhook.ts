@@ -106,7 +106,11 @@ export class WebhookService {
           `Failed to fetch topic: ${topic}, status: ${response.status}`
         );
         // If we can't fetch the topic, try using our own hub as fallback
-        return await WebhookService.subscribeToOwnHub(topic, userCallbackUrl);
+        return {
+          success: false,
+          message: `Failed to fetch topic: ${topic}, status: ${response.status}`,
+          usingExternalHub: false,
+        };
       }
 
       const contentType = response.headers.get("Content-Type") || "";
@@ -206,32 +210,29 @@ export class WebhookService {
         }
       }
 
-      // If we found a hub, subscribe to it
-      if (hubUrl) {
-        console.log(`Using WebSub hub for ${topic}: ${hubUrl}`);
-        const result = await WebhookService.subscribeToExternalHub(
-          topic,
-          hubUrl,
-          userCallbackUrl
-        );
-        return {
-          ...result,
-          usingExternalHub: true,
-        };
-      } else {
-        // No hub found, use our own hub
-        console.log(`No WebSub hub found for ${topic}, using fallback`);
-        return await WebhookService.subscribeToOwnHub(topic, userCallbackUrl);
-      }
+      console.log(`Using WebSub hub for ${topic}: ${hubUrl || config.hubUrl}`);
+      const result = await WebhookService.subscribeToHub(
+        topic,
+        hubUrl || config.hubUrl,
+        userCallbackUrl
+      );
+      return {
+        ...result,
+        usingExternalHub: true,
+      };
     } catch (error) {
       console.error(`Error subscribing to feed: ${topic}`, error);
       // If there's an error, try using our own hub as fallback
-      return await WebhookService.subscribeToOwnHub(topic, userCallbackUrl);
+      return {
+        success: false,
+        message: `Error subscribing to feed: ${error}`,
+        usingExternalHub: false,
+      };
     }
   }
 
   // Subscribe to an external hub
-  static async subscribeToExternalHub(
+  static async subscribeToHub(
     topic: string,
     hub: string,
     userCallbackUrl?: string
@@ -304,7 +305,10 @@ export class WebhookService {
         await db.externalSubscriptions.update(subscription);
 
         // Try using our own hub as fallback
-        return await WebhookService.subscribeToOwnHub(topic, userCallbackUrl);
+        return {
+          success: false,
+          message: `Failed to subscribe using external hub: ${response.status} ${response.statusText}`,
+        };
       }
 
       console.log(`Subscription request sent to ${hub} for ${topic}`);
@@ -332,102 +336,9 @@ export class WebhookService {
     } catch (error) {
       console.error(`Error subscribing to external hub: ${error}`);
       // If there's an error, try using our own hub as fallback
-      return await WebhookService.subscribeToOwnHub(topic, userCallbackUrl);
-    }
-  }
-
-  // Subscribe to our own hub (fallback). This is used when no external hub is available, our Hub will handle polling and then call this "hub" to notify the user
-  static async subscribeToOwnHub(
-    topic: string,
-    userCallbackUrl?: string
-  ): Promise<{
-    success: boolean;
-    message: string;
-    usingExternalHub: boolean;
-    subscriptionId?: string;
-    pendingVerification?: boolean;
-  }> {
-    try {
-      // Determine the hub URL to use (production or localhost)
-      const hubUrl = config.hubUrl;
-
-      // Generate a callback path and callback URL for the subscription
-      const callbackId = crypto.randomUUID();
-      const callbackPath = `/callback/${callbackId}`;
-      const callbackUrl = `${config.baseUrl}${callbackPath}`;
-
-      // Generate a secret for the subscription
-      const secret = crypto.randomUUID();
-
-      // Determine lease seconds
-      const leaseSeconds = config.defaultLeaseSeconds;
-
-      // Prepare the subscription request as FormData
-      const formData = new FormData();
-      formData.append("hub.callback", callbackUrl);
-      formData.append("hub.mode", "subscribe");
-      formData.append("hub.topic", topic);
-      formData.append("hub.lease_seconds", leaseSeconds.toString());
-      formData.append("hub.secret", secret);
-
-      // Add user callback to the request if provided
-      if (userCallbackUrl) {
-        formData.append("user_callback_url", userCallbackUrl);
-      }
-
-      // Send the subscription request to the hub
-      const response = await fetch(hubUrl, {
-        method: "POST",
-        headers: {
-          "User-Agent": `SuperDuperFeeder/${config.version}`,
-        },
-        body: formData,
-      });
-
-      // Check the response
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error(
-          `Failed to subscribe to ${topic} via our hub: ${response.status} ${response.statusText}`,
-          errorText
-        );
-
-        return {
-          success: false,
-          message: `Failed to subscribe using our hub: ${response.status} ${response.statusText}`,
-          usingExternalHub: false,
-        };
-      }
-
-      // Try to parse the response as JSON
-      let responseData;
-      try {
-        responseData = await response.json();
-      } catch {
-        // If not JSON, just use a generic success message
-        return {
-          success: true,
-          message: "Subscribed using our own hub",
-          usingExternalHub: false,
-          subscriptionId: callbackId,
-          pendingVerification: false,
-        };
-      }
-
-      // Return the hub's response data with additional fields
-      return {
-        success: true,
-        message: responseData.message || "Subscribed using our own hub",
-        usingExternalHub: false,
-        subscriptionId: responseData.id || callbackId,
-        pendingVerification: responseData.pendingVerification || false,
-      };
-    } catch (error) {
-      console.error(`Error subscribing to own hub: ${error}`);
       return {
         success: false,
-        message: `Error subscribing to own hub: ${error}`,
-        usingExternalHub: false,
+        message: `Error subscribing to external hub: ${error}`,
       };
     }
   }
