@@ -154,37 +154,4 @@ router.all("/callback/:id", async (ctx: Context) => {
   }
 });
 
-// Verification endpoint for user callbacks
-router.get("/api/webhook/verify/:token", async (ctx: Context) => {
-  try {
-    // Get the token from the URL path
-    const token = ctx.request.url.pathname.split("/").pop();
-
-    if (!token) {
-      ctx.response.status = 400;
-      ctx.response.body = {
-        success: false,
-        message: "Missing token parameter",
-      };
-      return;
-    }
-
-    // Call WebhookService.verifyCallback with the token
-    const result = await WebhookService.verifyCallback(token);
-
-    // Return appropriate response
-    ctx.response.status = result.success ? 200 : 400;
-    ctx.response.body = result;
-  } catch (error: unknown) {
-    console.error("Error processing verification request:", error);
-    const errorMessage = error instanceof Error ? error.message : String(error);
-
-    ctx.response.status = 500;
-    ctx.response.body = {
-      success: false,
-      message: `Internal server error: ${errorMessage}`,
-    };
-  }
-});
-
 export default router;

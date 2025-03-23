@@ -24,6 +24,7 @@ export class WebhookService {
       // If a userCallbackUrl is provided, check if it already exists for this topic
       let callbackId: string | undefined;
       let pendingVerification = false;
+      let verified = false;
 
       if (userCallbackUrl) {
         const existingCallback = await db.userCallbacks.getByTopicAndUrl(
@@ -58,7 +59,7 @@ export class WebhookService {
           const newCallback = await db.userCallbacks.create({
             topic,
             callbackUrl: userCallbackUrl,
-            verified: false,
+            verified,
             verificationToken,
             verificationExpires,
           });
@@ -66,8 +67,12 @@ export class WebhookService {
           callbackId = newCallback.id;
 
           // Send verification request
-          await WebhookService.sendVerificationRequest(newCallback);
-          pendingVerification = true;
+          verified = await WebhookService.sendVerificationRequest(newCallback);
+
+          newCallback.verified = verified;
+
+          await db.userCallbacks.update(newCallback);
+          pendingVerification = !verified;
         }
       }
 
@@ -822,7 +827,7 @@ export class WebhookService {
     }
   }
 
-  // Verify a callback using a token
+  // Verify a callback using a token if it's not returned in the response
   static async verifyCallback(token: string): Promise<{
     success: boolean;
     message: string;
