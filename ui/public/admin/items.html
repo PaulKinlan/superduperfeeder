@@ -1,241 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feed Items - Super Duper Feeder</title>
+    <link rel="stylesheet" href="/ui/styles.css">
+    <link rel="stylesheet" href="/admin/styles.css">
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Feed Items - Super Duper Feeder</title>
-  <link rel="stylesheet" href="/ui/styles.css">
-  <link rel="stylesheet" href="/admin/styles.css">
-</head>
+  <body>
+    <header>
+      <h1>Super Duper Feeder - Admin</h1>
+      <p>Administration Dashboard</p>
+      <nav>
+        <a href="/ui/index.html">Home</a>
+        <a href="/admin/index.html">Dashboard</a>
+        <a href="/admin/feeds.html">Feeds</a>
+        <a href="/admin/items.html" class="active">Feed Items</a>
+        <a href="/admin/subscriptions.html">Subscriptions</a>
+      </nav>
+    </header>
 
-<body>
-  <header>
-    <h1>Super Duper Feeder - Admin</h1>
-    <p>Administration Dashboard</p>
-    <nav>
-      <a href="/ui/index.html">Home</a>
-      <a href="/admin/index.html">Dashboard</a>
-      <a href="/admin/feeds.html">Feeds</a>
-      <a href="/admin/items.html" class="active">Feed Items</a>
-      <a href="/admin/subscriptions.html">Subscriptions</a>
-    </nav>
-  </header>
+    <main>
+      <section id="items">
+        <h2>Feed Items</h2>
+        <p>View all feed items across all feeds.</p>
 
-  <main>
-    <section id="items">
-      <h2>Feed Items</h2>
-      <p>View all feed items across all feeds.</p>
-
-      <div class="filters-container">
-        <div class="filters-grid">
-          <div class="filter-group">
-            <label for="feed-filter">Feed</label>
-            <select id="feed-filter">
-              <option value="">All Feeds</option>
-              <!-- Feed options will be populated dynamically -->
-            </select>
+        <div class="filters-container">
+          <div class="filters-grid">
+            <div class="filter-group">
+              <label for="feed-filter">Feed</label>
+              <select id="feed-filter">
+                <option value="">All Feeds</option>
+                <!-- Feed options will be populated dynamically -->
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="limit-filter">Limit</label>
+              <select id="limit-filter">
+                <option value="50">50 items</option>
+                <option value="100">100 items</option>
+                <option value="200">200 items</option>
+                <option value="500">500 items</option>
+              </select>
+            </div>
           </div>
-          <div class="filter-group">
-            <label for="limit-filter">Limit</label>
-            <select id="limit-filter">
-              <option value="50">50 items</option>
-              <option value="100">100 items</option>
-              <option value="200">200 items</option>
-              <option value="500">500 items</option>
-            </select>
-          </div>
-        </div>
-        <div class="filter-buttons">
-          <button id="apply-filters">Apply Filters</button>
-          <button id="reset-filters">Reset</button>
-        </div>
-      </div>
-
-      <div class="table-container">
-        <table id="items-table">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Feed</th>
-              <th>Published</th>
-              <th>Author</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="items-table-body">
-            <tr>
-              <td colspan="5" class="loading-message">Loading items...</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <section id="item-detail" style="display: none;">
-      <h2>Item Details</h2>
-      <div class="feed-details">
-        <h3 id="item-title">Item Title</h3>
-        <div class="feed-details-grid">
-          <div class="feed-detail-item">
-            <div class="feed-detail-label">Feed</div>
-            <div id="item-feed"></div>
-          </div>
-          <div class="feed-detail-item">
-            <div class="feed-detail-label">URL</div>
-            <div id="item-url"></div>
-          </div>
-          <div class="feed-detail-item">
-            <div class="feed-detail-label">Published</div>
-            <div id="item-published"></div>
-          </div>
-          <div class="feed-detail-item">
-            <div class="feed-detail-label">Updated</div>
-            <div id="item-updated"></div>
-          </div>
-          <div class="feed-detail-item">
-            <div class="feed-detail-label">Author</div>
-            <div id="item-author"></div>
-          </div>
-          <div class="feed-detail-item">
-            <div class="feed-detail-label">Categories</div>
-            <div id="item-categories"></div>
+          <div class="filter-buttons">
+            <button id="apply-filters">Apply Filters</button>
+            <button id="reset-filters">Reset</button>
           </div>
         </div>
 
-        <div class="feed-detail-item" style="margin-top: 20px;">
-          <div class="feed-detail-label">Summary</div>
-          <div id="item-summary" class="item-content"></div>
+        <div class="table-container">
+          <table id="items-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Feed</th>
+                <th>Published</th>
+                <th>Author</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="items-table-body">
+              <tr>
+                <td colspan="5" class="loading-message">Loading items...</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+      </section>
 
-        <div class="feed-actions">
-          <a id="view-original" href="#" target="_blank" class="action-button">View Original</a>
-          <button id="back-to-items" class="action-button">Back to Items List</button>
+      <section id="item-detail" style="display: none">
+        <h2>Item Details</h2>
+        <div class="feed-details">
+          <h3 id="item-title">Item Title</h3>
+          <div class="feed-details-grid">
+            <div class="feed-detail-item">
+              <div class="feed-detail-label">Feed</div>
+              <div id="item-feed"></div>
+            </div>
+            <div class="feed-detail-item">
+              <div class="feed-detail-label">URL</div>
+              <div id="item-url"></div>
+            </div>
+            <div class="feed-detail-item">
+              <div class="feed-detail-label">Published</div>
+              <div id="item-published"></div>
+            </div>
+            <div class="feed-detail-item">
+              <div class="feed-detail-label">Updated</div>
+              <div id="item-updated"></div>
+            </div>
+            <div class="feed-detail-item">
+              <div class="feed-detail-label">Author</div>
+              <div id="item-author"></div>
+            </div>
+            <div class="feed-detail-item">
+              <div class="feed-detail-label">Categories</div>
+              <div id="item-categories"></div>
+            </div>
+          </div>
+
+          <div class="feed-detail-item" style="margin-top: 20px">
+            <div class="feed-detail-label">Summary</div>
+            <div id="item-summary" class="item-content"></div>
+          </div>
+
+          <div class="feed-actions">
+            <a id="view-original" href="#" target="_blank" class="action-button">View Original</a>
+            <button id="back-to-items" class="action-button">Back to Items List</button>
+          </div>
         </div>
-      </div>
-    </section>
-  </main>
+      </section>
+    </main>
 
-  <footer>
-    <p>Super Duper Feeder - A WebSub/PubSubHubbub service</p>
-  </footer>
+    <footer>
+      <p>Super Duper Feeder - A WebSub/PubSubHubbub service</p>
+    </footer>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // Elements
-      const itemsSection = document.getElementById('items');
-      const itemDetailSection = document.getElementById('item-detail');
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Elements
+        const itemsSection = document.getElementById("items");
+        const itemDetailSection = document.getElementById("item-detail");
 
-      // Filter elements
-      const feedFilter = document.getElementById('feed-filter');
-      const limitFilter = document.getElementById('limit-filter');
-      const applyFiltersBtn = document.getElementById('apply-filters');
-      const resetFiltersBtn = document.getElementById('reset-filters');
+        // Filter elements
+        const feedFilter = document.getElementById("feed-filter");
+        const limitFilter = document.getElementById("limit-filter");
+        const applyFiltersBtn = document.getElementById("apply-filters");
+        const resetFiltersBtn = document.getElementById("reset-filters");
 
-      // Item detail elements
-      const itemTitle = document.getElementById('item-title');
-      const itemFeed = document.getElementById('item-feed');
-      const itemUrl = document.getElementById('item-url');
-      const itemPublished = document.getElementById('item-published');
-      const itemUpdated = document.getElementById('item-updated');
-      const itemAuthor = document.getElementById('item-author');
-      const itemCategories = document.getElementById('item-categories');
-      const itemSummary = document.getElementById('item-summary');
-      const viewOriginalBtn = document.getElementById('view-original');
-      const backToItemsBtn = document.getElementById('back-to-items');
+        // Item detail elements
+        const itemTitle = document.getElementById("item-title");
+        const itemFeed = document.getElementById("item-feed");
+        const itemUrl = document.getElementById("item-url");
+        const itemPublished = document.getElementById("item-published");
+        const itemUpdated = document.getElementById("item-updated");
+        const itemAuthor = document.getElementById("item-author");
+        const itemCategories = document.getElementById("item-categories");
+        const itemSummary = document.getElementById("item-summary");
+        const viewOriginalBtn = document.getElementById("view-original");
+        const backToItemsBtn = document.getElementById("back-to-items");
 
-      // Current item data
-      let currentItem = null;
+        // Current item data
+        let currentItem = null;
 
-      // Load feeds for filter dropdown
-      loadFeedsForFilter();
+        // Load feeds for filter dropdown
+        loadFeedsForFilter();
 
-      // Load items on page load
-      loadItems();
+        // Load items on page load
+        loadItems();
 
-      // Event listeners
-      applyFiltersBtn.addEventListener('click', loadItems);
-      resetFiltersBtn.addEventListener('click', resetFilters);
-      backToItemsBtn.addEventListener('click', showItemsList);
+        // Event listeners
+        applyFiltersBtn.addEventListener("click", loadItems);
+        resetFiltersBtn.addEventListener("click", resetFilters);
+        backToItemsBtn.addEventListener("click", showItemsList);
 
-      // Functions
-      function loadFeedsForFilter() {
-        fetch('/api/admin/feeds')
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-          })
-          .then(feeds => {
-            // Sort feeds by title
-            feeds.sort((a, b) => {
-              const titleA = a.title || a.url;
-              const titleB = b.title || b.url;
-              return titleA.localeCompare(titleB);
+        // Functions
+        function loadFeedsForFilter() {
+          fetch("/api/admin/feeds")
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+              }
+              return response.json();
+            })
+            .then((feeds) => {
+              // Sort feeds by title
+              feeds.sort((a, b) => {
+                const titleA = a.title || a.url;
+                const titleB = b.title || b.url;
+                return titleA.localeCompare(titleB);
+              });
+
+              // Add options to feed filter
+              const options = feeds.map((feed) => {
+                const title = feed.title || feed.url;
+                return `<option value="${feed.id}">${title}</option>`;
+              });
+
+              feedFilter.innerHTML = '<option value="">All Feeds</option>' +
+                options.join("");
+            })
+            .catch((error) => {
+              console.error("Error loading feeds for filter:", error);
             });
-
-            // Add options to feed filter
-            const options = feeds.map(feed => {
-              const title = feed.title || feed.url;
-              return `<option value="${feed.id}">${title}</option>`;
-            });
-
-            feedFilter.innerHTML = '<option value="">All Feeds</option>' + options.join('');
-          })
-          .catch(error => {
-            console.error('Error loading feeds for filter:', error);
-          });
-      }
-
-      function loadItems() {
-        const feedId = feedFilter.value;
-        const limit = limitFilter.value;
-
-        let url = `/api/admin/items?limit=${limit}`;
-        if (feedId) {
-          url += `&feedId=${feedId}`;
         }
 
-        const tableBody = document.getElementById('items-table-body');
-        tableBody.innerHTML = '<tr><td colspan="5" class="loading-message">Loading items...</td></tr>';
+        function loadItems() {
+          const feedId = feedFilter.value;
+          const limit = limitFilter.value;
 
-        // First, get all feeds to be able to display feed titles
-        fetch('/api/admin/feeds')
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-          })
-          .then(feeds => {
-            // Create a map of feed IDs to feed titles
-            const feedMap = {};
-            feeds.forEach(feed => {
-              feedMap[feed.id] = feed.title || feed.url;
-            });
+          let url = `/api/admin/items?limit=${limit}`;
+          if (feedId) {
+            url += `&feedId=${feedId}`;
+          }
 
-            // Now fetch the items
-            return fetch(url)
-              .then(response => {
-                if (!response.ok) {
-                  throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-              })
-              .then(items => {
-                if (items.length === 0) {
-                  tableBody.innerHTML = '<tr><td colspan="5" class="empty-message">No items found</td></tr>';
-                  return;
-                }
+          const tableBody = document.getElementById("items-table-body");
+          tableBody.innerHTML =
+            '<tr><td colspan="5" class="loading-message">Loading items...</td></tr>';
 
-                tableBody.innerHTML = items.map(item => {
-                  const title = item.title || 'Untitled';
-                  const feedTitle = feedMap[item.feedId] || 'Unknown Feed';
-                  const published = new Date(item.published).toLocaleString();
-                  const author = item.author || 'Unknown';
+          // First, get all feeds to be able to display feed titles
+          fetch("/api/admin/feeds")
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+              }
+              return response.json();
+            })
+            .then((feeds) => {
+              // Create a map of feed IDs to feed titles
+              const feedMap = {};
+              feeds.forEach((feed) => {
+                feedMap[feed.id] = feed.title || feed.url;
+              });
 
-                  return `
+              // Now fetch the items
+              return fetch(url)
+                .then((response) => {
+                  if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                  }
+                  return response.json();
+                })
+                .then((items) => {
+                  if (items.length === 0) {
+                    tableBody.innerHTML =
+                      '<tr><td colspan="5" class="empty-message">No items found</td></tr>';
+                    return;
+                  }
+
+                  tableBody.innerHTML = items.map((item) => {
+                    const title = item.title || "Untitled";
+                    const feedTitle = feedMap[item.feedId] || "Unknown Feed";
+                    const published = new Date(item.published).toLocaleString();
+                    const author = item.author || "Unknown";
+
+                    return `
                     <tr data-id="${item.id}">
                       <td>${title}</td>
                       <td>${feedTitle}</td>
@@ -247,77 +249,77 @@
                       </td>
                     </tr>
                   `;
-                }).join('');
+                  }).join("");
 
-                // Add event listeners to view buttons
-                document.querySelectorAll('.view-item-btn').forEach(button => {
-                  button.addEventListener('click', function () {
-                    const itemId = this.getAttribute('data-id');
-                    const feedId = this.getAttribute('data-feed-id');
+                  // Add event listeners to view buttons
+                  document.querySelectorAll(".view-item-btn").forEach((button) => {
+                    button.addEventListener("click", function () {
+                      const itemId = this.getAttribute("data-id");
+                      const feedId = this.getAttribute("data-feed-id");
 
-                    // Find the item in the items array
-                    const item = items.find(i => i.id === itemId);
-                    if (item) {
-                      showItemDetails(item, feedMap[item.feedId] || 'Unknown Feed');
-                    }
+                      // Find the item in the items array
+                      const item = items.find((i) => i.id === itemId);
+                      if (item) {
+                        showItemDetails(item, feedMap[item.feedId] || "Unknown Feed");
+                      }
+                    });
                   });
                 });
-              });
-          })
-          .catch(error => {
-            console.error('Error loading items:', error);
-            tableBody.innerHTML = '<tr><td colspan="5" class="error-message">Error loading items</td></tr>';
-          });
-      }
-
-      function resetFilters() {
-        feedFilter.value = '';
-        limitFilter.value = '50';
-        loadItems();
-      }
-
-      function showItemDetails(item, feedTitle) {
-        currentItem = item;
-
-        // Update item details
-        itemTitle.textContent = item.title || 'Untitled';
-        itemFeed.textContent = feedTitle;
-        itemUrl.textContent = item.url;
-        itemUrl.title = item.url;
-
-        itemPublished.textContent = item.published
-          ? new Date(item.published).toLocaleString()
-          : 'Unknown';
-
-        itemUpdated.textContent = item.updated
-          ? new Date(item.updated).toLocaleString()
-          : 'N/A';
-
-        itemAuthor.textContent = item.author || 'Unknown';
-
-        if (item.categories && item.categories.length > 0) {
-          itemCategories.textContent = item.categories.join(', ');
-        } else {
-          itemCategories.textContent = 'None';
+            })
+            .catch((error) => {
+              console.error("Error loading items:", error);
+              tableBody.innerHTML =
+                '<tr><td colspan="5" class="error-message">Error loading items</td></tr>';
+            });
         }
 
-        itemSummary.textContent = item.summary || item.content || 'No content available';
+        function resetFilters() {
+          feedFilter.value = "";
+          limitFilter.value = "50";
+          loadItems();
+        }
 
-        // Update view original button
-        viewOriginalBtn.href = item.url;
+        function showItemDetails(item, feedTitle) {
+          currentItem = item;
 
-        // Show item detail section
-        itemsSection.style.display = 'none';
-        itemDetailSection.style.display = 'block';
-      }
+          // Update item details
+          itemTitle.textContent = item.title || "Untitled";
+          itemFeed.textContent = feedTitle;
+          itemUrl.textContent = item.url;
+          itemUrl.title = item.url;
 
-      function showItemsList() {
-        itemsSection.style.display = 'block';
-        itemDetailSection.style.display = 'none';
-        currentItem = null;
-      }
-    });
-  </script>
-</body>
+          itemPublished.textContent = item.published
+            ? new Date(item.published).toLocaleString()
+            : "Unknown";
 
+          itemUpdated.textContent = item.updated
+            ? new Date(item.updated).toLocaleString()
+            : "N/A";
+
+          itemAuthor.textContent = item.author || "Unknown";
+
+          if (item.categories && item.categories.length > 0) {
+            itemCategories.textContent = item.categories.join(", ");
+          } else {
+            itemCategories.textContent = "None";
+          }
+
+          itemSummary.textContent = item.summary || item.content || "No content available";
+
+          // Update view original button
+          viewOriginalBtn.href = item.url;
+
+          // Show item detail section
+          itemsSection.style.display = "none";
+          itemDetailSection.style.display = "block";
+        }
+
+        function showItemsList() {
+          itemsSection.style.display = "block";
+          itemDetailSection.style.display = "none";
+          currentItem = null;
+        }
+      });
+    </script>
+  </body>
 </html>

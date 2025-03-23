@@ -18,7 +18,7 @@ const getPasswordKey = async (password: string): Promise<CryptoKey> =>
 const deriveKey = async (
   passwordKey: CryptoKey,
   salt: Uint8Array,
-  keyUsage: KeyUsage[]
+  keyUsage: KeyUsage[],
 ): Promise<CryptoKey> =>
   await crypto.subtle.deriveKey(
     {
@@ -30,7 +30,7 @@ const deriveKey = async (
     passwordKey,
     { name: "AES-GCM", length: 256 },
     false,
-    keyUsage
+    keyUsage,
   );
 
 /**
@@ -41,7 +41,7 @@ const deriveKey = async (
  */
 export async function encryptData(
   data: string,
-  password: string
+  password: string,
 ): Promise<string> {
   try {
     const salt = crypto.getRandomValues(new Uint8Array(16));
@@ -54,12 +54,12 @@ export async function encryptData(
         iv: iv,
       },
       aesKey,
-      enc.encode(data)
+      enc.encode(data),
     );
 
     const encryptedContentArr = new Uint8Array(encryptedContent);
     let buff = new Uint8Array(
-      salt.byteLength + iv.byteLength + encryptedContentArr.byteLength
+      salt.byteLength + iv.byteLength + encryptedContentArr.byteLength,
     );
     buff.set(salt, 0);
     buff.set(iv, salt.byteLength);
@@ -80,7 +80,7 @@ export async function encryptData(
  */
 export async function decryptData(
   encryptedData: string,
-  password: string
+  password: string,
 ): Promise<string> {
   try {
     const encryptedDataBuff = base64_to_buf(encryptedData);
@@ -95,7 +95,7 @@ export async function decryptData(
         iv: iv,
       },
       aesKey,
-      data
+      data,
     );
     return dec.decode(decryptedContent);
   } catch (e) {
@@ -133,7 +133,7 @@ export async function hash(password: string): Promise<string> {
  */
 export async function compare(
   password: string,
-  hashedPassword: string
+  hashedPassword: string,
 ): Promise<boolean> {
   const PREFIX = "WEBCRYPTO$";
 

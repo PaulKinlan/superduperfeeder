@@ -1,6 +1,6 @@
 // Static file routes
 
-import { Router, join } from "../deps.ts";
+import { join, Router } from "../deps.ts";
 import type { Context } from "@oak/oak";
 
 const router = new Router();

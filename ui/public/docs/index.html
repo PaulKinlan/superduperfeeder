@@ -1,170 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Duper Feeder - Documentation</title>
+    <link rel="stylesheet" href="../ui/styles.css">
+    <link rel="stylesheet" href="styles.css">
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Super Duper Feeder - Documentation</title>
-  <link rel="stylesheet" href="../ui/styles.css">
-  <link rel="stylesheet" href="styles.css">
-</head>
+  <body>
+    <header>
+      <h1>Super Duper Feeder Documentation</h1>
+      <p>Complete guide to using the WebSub/PubSubHubbub service</p>
+    </header>
 
-<body>
-  <header>
-    <h1>Super Duper Feeder Documentation</h1>
-    <p>Complete guide to using the WebSub/PubSubHubbub service</p>
-  </header>
+    <nav>
+      <a href="/ui/index.html">Back to UI</a>
+      <a href="#introduction">Introduction</a>
+      <a href="#concepts">WebSub Concepts</a>
+      <a href="#api-reference">API Reference</a>
+      <a href="#examples">Usage Examples</a>
+      <a href="#best-practices">Best Practices</a>
+      <a href="#troubleshooting">Troubleshooting</a>
+    </nav>
 
-  <nav>
-    <a href="/ui/index.html">Back to UI</a>
-    <a href="#introduction">Introduction</a>
-    <a href="#concepts">WebSub Concepts</a>
-    <a href="#api-reference">API Reference</a>
-    <a href="#examples">Usage Examples</a>
-    <a href="#best-practices">Best Practices</a>
-    <a href="#troubleshooting">Troubleshooting</a>
-  </nav>
-
-  <main>
-    <section id="introduction">
-      <h2>Introduction</h2>
-      <p>
-        Super Duper Feeder is a spec-compliant WebSub/PubSubHubbub service that allows users to subscribe to RSS feeds
-        and get notified when new content is available. It provides real-time updates via WebSockets, Server-Sent Events
-        (SSE), and webhooks.
-      </p>
-      <p>
-        This documentation provides detailed information about the service's features, API endpoints, and usage
-        examples.
-      </p>
-    </section>
-
-    <section id="concepts">
-      <h2>WebSub Concepts</h2>
-      <p>
-        WebSub (formerly PubSubHubbub) is a protocol that enables real-time notifications for content updates. It
-        involves three main components:
-      </p>
-      <ul>
-        <li><strong>Publishers</strong>: Content creators who notify the hub when they update their content</li>
-        <li><strong>Hub</strong>: A server (like Super Duper Feeder) that receives update notifications from publishers
-          and forwards them to subscribers</li>
-        <li><strong>Subscribers</strong>: Services or applications that want to receive real-time updates about content
-          changes</li>
-      </ul>
-      <p>
-        The flow works as follows:
-      </p>
-      <ol>
-        <li>A subscriber discovers the hub URL from a publisher's feed</li>
-        <li>The subscriber sends a subscription request to the hub</li>
-        <li>The hub verifies the subscription request with the subscriber</li>
-        <li>When the publisher updates content, they notify the hub</li>
-        <li>The hub fetches the updated content and sends it to all subscribers</li>
-      </ol>
-    </section>
-
-    <section id="api-reference">
-      <h2>API Reference</h2>
-
-      <div class="api-nav">
-        <h3>Quick Navigation</h3>
-        <ul>
-          <li><a href="#hub-endpoints">WebSub Hub Endpoints</a></li>
-          <li><a href="#webhook-api">Webhook API</a></li>
-          <li><a href="#verification-endpoint">Webhook Verification Endpoint</a></li>
-          <li><a href="#callback-endpoint">Callback Endpoint</a></li>
-          <li><a href="#health-check">Health Check</a></li>
-        </ul>
-      </div>
-
-      <h3 id="hub-endpoints">WebSub Hub Endpoints</h3>
-      <div class="endpoint">
-        <h4>Main Hub Endpoint</h4>
-        <p><code>POST /</code></p>
-        <p>This endpoint handles both subscription and publishing operations.</p>
-
-        <h5>For Publishers</h5>
-        <p>To publish updates to the hub:</p>
-        <pre><code>POST /
-Content-Type: application/x-www-form-urlencoded
-
-hub.mode=publish&hub.url=https://example.com/feed.xml</code></pre>
-
-        <h5>For Subscribers</h5>
-        <p>To subscribe to updates:</p>
-        <pre><code>POST /
-Content-Type: application/x-www-form-urlencoded
-
-hub.callback=https://example.com/callback&hub.mode=subscribe&hub.topic=https://example.com/feed.xml&hub.lease_seconds=86400</code></pre>
-
-        <p>To unsubscribe:</p>
-        <pre><code>POST /
-Content-Type: application/x-www-form-urlencoded
-
-hub.callback=https://example.com/callback&hub.mode=unsubscribe&hub.topic=https://example.com/feed.xml</code></pre>
-      </div>
-
-      <div id="webhook-api" class="endpoint">
-        <h4>WebSub Subscription Endpoint</h4>
-        <p><code>POST /api/webhook</code></p>
-        <p>Subscribe to a feed using WebSub, with automatic hub discovery. This endpoint will attempt to find the WebSub
-          hub for the specified feed and subscribe to it. If no hub is found, it will fall back to using the Super Duper
-          Feeder's own hub.</p>
-
-        <h5>Request Parameters</h5>
-        <table>
-          <thead>
-            <tr>
-              <th>Parameter</th>
-              <th>Type</th>
-              <th>Required</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><code>topic</code></td>
-              <td>string</td>
-              <td>Yes</td>
-              <td>The URL of the feed to subscribe to. This can be an RSS, Atom, or JSON feed, or an HTML page with feed
-                autodiscovery links.</td>
-            </tr>
-            <tr>
-              <td><code>callback</code></td>
-              <td>string</td>
-              <td>No</td>
-              <td>Your callback URL where updates will be forwarded.</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <h5>Callback Verification</h5>
+    <main>
+      <section id="introduction">
+        <h2>Introduction</h2>
         <p>
-          <strong>Important:</strong> When you provide a callback URL, it must be verified before any updates are sent
-          to it. This ensures that you actually own the callback URL and prevents abuse.
+          Super Duper Feeder is a spec-compliant WebSub/PubSubHubbub service that allows users to
+          subscribe to RSS feeds and get notified when new content is available. It provides
+          real-time updates via WebSockets, Server-Sent Events (SSE), and webhooks.
         </p>
+        <p>
+          This documentation provides detailed information about the service's features, API
+          endpoints, and usage examples.
+        </p>
+      </section>
 
-        <p>The verification process works as follows:</p>
+      <section id="concepts">
+        <h2>WebSub Concepts</h2>
+        <p>
+          WebSub (formerly PubSubHubbub) is a protocol that enables real-time notifications for
+          content updates. It involves three main components:
+        </p>
+        <ul>
+          <li>
+            <strong>Publishers</strong>: Content creators who notify the hub when they update their
+            content
+          </li>
+          <li>
+            <strong>Hub</strong>: A server (like Super Duper Feeder) that receives update
+            notifications from publishers and forwards them to subscribers
+          </li>
+          <li>
+            <strong>Subscribers</strong>: Services or applications that want to receive real-time
+            updates about content changes
+          </li>
+        </ul>
+        <p>
+          The flow works as follows:
+        </p>
         <ol>
-          <li>You submit a webhook subscription with your callback URL</li>
-          <li>The system generates a verification token and sends a GET request to your callback URL with the token</li>
-          <li>Your callback endpoint must respond with the token in the response body</li>
-          <li>Once verified, your callback will start receiving updates</li>
+          <li>A subscriber discovers the hub URL from a publisher's feed</li>
+          <li>The subscriber sends a subscription request to the hub</li>
+          <li>The hub verifies the subscription request with the subscriber</li>
+          <li>When the publisher updates content, they notify the hub</li>
+          <li>The hub fetches the updated content and sends it to all subscribers</li>
         </ol>
+      </section>
 
-        <p>The verification request will be sent to:</p>
-        <pre><code>GET {your-callback-url}?mode=verify&token={verification-token}</code></pre>
+      <section id="api-reference">
+        <h2>API Reference</h2>
 
-        <p>Your callback endpoint should:</p>
-        <ol>
-          <li>Extract the token from the <code>token</code> query parameter</li>
-          <li>Respond with a 200 OK status code</li>
-          <li>Return the token as plain text in the response body</li>
-        </ol>
+        <div class="api-nav">
+          <h3>Quick Navigation</h3>
+          <ul>
+            <li><a href="#hub-endpoints">WebSub Hub Endpoints</a></li>
+            <li><a href="#webhook-api">Webhook API</a></li>
+            <li><a href="#verification-endpoint">Webhook Verification Endpoint</a></li>
+            <li><a href="#callback-endpoint">Callback Endpoint</a></li>
+            <li><a href="#health-check">Health Check</a></li>
+          </ul>
+        </div>
 
-        <p>Example callback handler for verification:</p>
-        <pre><code>// Example using Express.js
+        <h3 id="hub-endpoints">WebSub Hub Endpoints</h3>
+        <div class="endpoint">
+          <h4>Main Hub Endpoint</h4>
+          <p><code>POST /</code></p>
+          <p>This endpoint handles both subscription and publishing operations.</p>
+
+          <h5>For Publishers</h5>
+          <p>To publish updates to the hub:</p>
+          <pre
+          >
+<code>POST /
+Content-Type: application/x-www-form-urlencoded
+
+hub.mode=publish&hub.url=https://example.com/feed.xml</code></pre
+          >
+
+          <h5>For Subscribers</h5>
+          <p>To subscribe to updates:</p>
+          <pre
+          >
+<code>POST /
+Content-Type: application/x-www-form-urlencoded
+
+hub.callback=https://example.com/callback&hub.mode=subscribe&hub.topic=https://example.com/feed.xml&hub.lease_seconds=86400</code></pre
+          >
+
+          <p>To unsubscribe:</p>
+          <pre
+          >
+<code>POST /
+Content-Type: application/x-www-form-urlencoded
+
+hub.callback=https://example.com/callback&hub.mode=unsubscribe&hub.topic=https://example.com/feed.xml</code></pre
+          >
+        </div>
+
+        <div id="webhook-api" class="endpoint">
+          <h4>WebSub Subscription Endpoint</h4>
+          <p><code>POST /api/webhook</code></p>
+          <p>
+            Subscribe to a feed using WebSub, with automatic hub discovery. This endpoint will
+            attempt to find the WebSub hub for the specified feed and subscribe to it. If no hub is
+            found, it will fall back to using the Super Duper Feeder's own hub.
+          </p>
+
+          <h5>Request Parameters</h5>
+          <table>
+            <thead>
+              <tr>
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Required</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>topic</code></td>
+                <td>string</td>
+                <td>Yes</td>
+                <td>
+                  The URL of the feed to subscribe to. This can be an RSS, Atom, or JSON feed, or an
+                  HTML page with feed autodiscovery links.
+                </td>
+              </tr>
+              <tr>
+                <td><code>callback</code></td>
+                <td>string</td>
+                <td>No</td>
+                <td>Your callback URL where updates will be forwarded.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h5>Callback Verification</h5>
+          <p>
+            <strong>Important:</strong> When you provide a callback URL, it must be verified before
+            any updates are sent to it. This ensures that you actually own the callback URL and
+            prevents abuse.
+          </p>
+
+          <p>The verification process works as follows:</p>
+          <ol>
+            <li>You submit a webhook subscription with your callback URL</li>
+            <li>
+              The system generates a verification token and sends a GET request to your callback URL
+              with the token
+            </li>
+            <li>Your callback endpoint must respond with the token in the response body</li>
+            <li>Once verified, your callback will start receiving updates</li>
+          </ol>
+
+          <p>The verification request will be sent to:</p>
+          <pre><code>GET {your-callback-url}?mode=verify&token={verification-token}</code></pre>
+
+          <p>Your callback endpoint should:</p>
+          <ol>
+            <li>Extract the token from the <code>token</code> query parameter</li>
+            <li>Respond with a 200 OK status code</li>
+            <li>Return the token as plain text in the response body</li>
+          </ol>
+
+          <p>Example callback handler for verification:</p>
+          <pre
+          >
+<code>// Example using Express.js
 app.get('/my-callback', (req, res) => {
   // Check if this is a verification request
   if (req.query.mode === 'verify' && req.query.token) {
@@ -174,18 +199,25 @@ app.get('/my-callback', (req, res) => {
     // Handle other requests
     res.status(400).send('Invalid request');
   }
-});</code></pre>
+});</code></pre
+          >
 
-        <p>Verification tokens expire after 24 hours. If your callback is not verified within this time, you'll need to
-          submit a new subscription request.</p>
+          <p>
+            Verification tokens expire after 24 hours. If your callback is not verified within this
+            time, you'll need to submit a new subscription request.
+          </p>
 
-        <h5>Response</h5>
-        <p>Status Code: <code>202 Accepted</code> on success, <code>400 Bad Request</code> on error,
-          <code>500 Internal Server Error</code> on server error
-        </p>
+          <h5>Response</h5>
+          <p>
+            Status Code: <code>202 Accepted</code> on success, <code>400 Bad Request</code> on
+            error,
+            <code>500 Internal Server Error</code> on server error
+          </p>
 
-        <p>Response Body (JSON):</p>
-        <pre><code>{
+          <p>Response Body (JSON):</p>
+          <pre
+          >
+<code>{
   "success": true|false,
   "message": "Description of the result",
   "usingExternalHub": true|false,
@@ -193,87 +225,100 @@ app.get('/my-callback', (req, res) => {
   "callbackId": "uuid-of-callback", // Only if callback was provided
   "pendingVerification": true|false, // Indicates if the callback needs verification
   "verificationInstructions": "Instructions for verifying the callback" // Only if pendingVerification is true
-}</code></pre>
+}</code></pre
+          >
 
-        <h5>Success Response Fields</h5>
-        <table>
-          <thead>
-            <tr>
-              <th>Field</th>
-              <th>Type</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><code>success</code></td>
-              <td>boolean</td>
-              <td>Indicates if the subscription request was successful</td>
-            </tr>
-            <tr>
-              <td><code>message</code></td>
-              <td>string</td>
-              <td>A human-readable description of the result</td>
-            </tr>
-            <tr>
-              <td><code>usingExternalHub</code></td>
-              <td>boolean</td>
-              <td>Indicates if an external WebSub hub was found and used (true) or if the service fell back to its own
-                hub (false)</td>
-            </tr>
-            <tr>
-              <td><code>subscriptionId</code></td>
-              <td>string</td>
-              <td>The UUID of the created subscription, useful for tracking</td>
-            </tr>
-            <tr>
-              <td><code>callbackId</code></td>
-              <td>string</td>
-              <td>The UUID of the created callback, only present if a callback URL was provided</td>
-            </tr>
-            <tr>
-              <td><code>pendingVerification</code></td>
-              <td>boolean</td>
-              <td>Indicates if the callback URL requires verification (true) or is already verified (false)</td>
-            </tr>
-            <tr>
-              <td><code>verificationInstructions</code></td>
-              <td>string</td>
-              <td>Instructions for verifying the callback URL, only present if pendingVerification is true</td>
-            </tr>
-          </tbody>
-        </table>
+          <h5>Success Response Fields</h5>
+          <table>
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>success</code></td>
+                <td>boolean</td>
+                <td>Indicates if the subscription request was successful</td>
+              </tr>
+              <tr>
+                <td><code>message</code></td>
+                <td>string</td>
+                <td>A human-readable description of the result</td>
+              </tr>
+              <tr>
+                <td><code>usingExternalHub</code></td>
+                <td>boolean</td>
+                <td>
+                  Indicates if an external WebSub hub was found and used (true) or if the service
+                  fell back to its own hub (false)
+                </td>
+              </tr>
+              <tr>
+                <td><code>subscriptionId</code></td>
+                <td>string</td>
+                <td>The UUID of the created subscription, useful for tracking</td>
+              </tr>
+              <tr>
+                <td><code>callbackId</code></td>
+                <td>string</td>
+                <td>
+                  The UUID of the created callback, only present if a callback URL was provided
+                </td>
+              </tr>
+              <tr>
+                <td><code>pendingVerification</code></td>
+                <td>boolean</td>
+                <td>
+                  Indicates if the callback URL requires verification (true) or is already verified
+                  (false)
+                </td>
+              </tr>
+              <tr>
+                <td><code>verificationInstructions</code></td>
+                <td>string</td>
+                <td>
+                  Instructions for verifying the callback URL, only present if pendingVerification
+                  is true
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
-        <h5>Error Responses</h5>
-        <table>
-          <thead>
-            <tr>
-              <th>Status Code</th>
-              <th>Error Message</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>400</td>
-              <td>Missing topic parameter</td>
-              <td>The required topic parameter was not provided</td>
-            </tr>
-            <tr>
-              <td>400</td>
-              <td>Failed to add feed for polling</td>
-              <td>The service could not add the feed for polling (when using fallback hub)</td>
-            </tr>
-            <tr>
-              <td>500</td>
-              <td>Internal server error: [error details]</td>
-              <td>An unexpected error occurred on the server</td>
-            </tr>
-          </tbody>
-        </table>
+          <h5>Error Responses</h5>
+          <table>
+            <thead>
+              <tr>
+                <th>Status Code</th>
+                <th>Error Message</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>400</td>
+                <td>Missing topic parameter</td>
+                <td>The required topic parameter was not provided</td>
+              </tr>
+              <tr>
+                <td>400</td>
+                <td>Failed to add feed for polling</td>
+                <td>The service could not add the feed for polling (when using fallback hub)</td>
+              </tr>
+              <tr>
+                <td>500</td>
+                <td>Internal server error: [error details]</td>
+                <td>An unexpected error occurred on the server</td>
+              </tr>
+            </tbody>
+          </table>
 
-        <h5>Example Usage</h5>
-        <pre><code>// Using fetch API in JavaScript
+          <h5>Example Usage</h5>
+          <pre
+          >
+<code>// Using fetch API in JavaScript
 async function subscribeToFeed(topicUrl, callbackUrl) {
   const formData = new FormData();
   formData.append('topic', topicUrl);
@@ -300,65 +345,75 @@ async function subscribeToFeed(topicUrl, callbackUrl) {
   } else {
     console.error(`Failed to subscribe: ${result.message}`);
   }
-}</code></pre>
+}</code></pre
+          >
 
-        <h5>Notes</h5>
-        <ul>
-          <li>The service will automatically discover the WebSub hub for the feed by checking:
-            <ol>
-              <li>HTTP Link headers with <code>rel="hub"</code></li>
-              <li>Feed content for hub links</li>
-              <li>HTML content for hub links or feed autodiscovery links</li>
-            </ol>
-          </li>
-          <li>If no WebSub hub is found, the service will use its own hub as a fallback</li>
-          <li>If a callback URL is provided, updates will be forwarded to that URL</li>
-          <li>Subscriptions have a default lease time and will be automatically renewed</li>
-        </ul>
-      </div>
+          <h5>Notes</h5>
+          <ul>
+            <li>
+              The service will automatically discover the WebSub hub for the feed by checking:
+              <ol>
+                <li>HTTP Link headers with <code>rel="hub"</code></li>
+                <li>Feed content for hub links</li>
+                <li>HTML content for hub links or feed autodiscovery links</li>
+              </ol>
+            </li>
+            <li>If no WebSub hub is found, the service will use its own hub as a fallback</li>
+            <li>If a callback URL is provided, updates will be forwarded to that URL</li>
+            <li>Subscriptions have a default lease time and will be automatically renewed</li>
+          </ul>
+        </div>
 
-      <div id="verification-endpoint" class="endpoint">
-        <h4>Webhook Verification Endpoint</h4>
-        <p><code>GET /api/webhook/verify/:token</code></p>
-        <p>This endpoint is used to manually verify a callback URL. Normally, verification happens automatically when
-          your callback responds to the verification request, but you can also use this endpoint to manually verify a
-          callback if needed.</p>
+        <div id="verification-endpoint" class="endpoint">
+          <h4>Webhook Verification Endpoint</h4>
+          <p><code>GET /api/webhook/verify/:token</code></p>
+          <p>
+            This endpoint is used to manually verify a callback URL. Normally, verification happens
+            automatically when your callback responds to the verification request, but you can also
+            use this endpoint to manually verify a callback if needed.
+          </p>
 
-        <h5>Path Parameters</h5>
-        <table>
-          <thead>
-            <tr>
-              <th>Parameter</th>
-              <th>Type</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><code>token</code></td>
-              <td>string</td>
-              <td>The verification token sent to your callback URL</td>
-            </tr>
-          </tbody>
-        </table>
+          <h5>Path Parameters</h5>
+          <table>
+            <thead>
+              <tr>
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>token</code></td>
+                <td>string</td>
+                <td>The verification token sent to your callback URL</td>
+              </tr>
+            </tbody>
+          </table>
 
-        <h5>Response</h5>
-        <p>Status Code: <code>200 OK</code> on success, <code>400 Bad Request</code> on error</p>
+          <h5>Response</h5>
+          <p>
+            Status Code: <code>200 OK</code> on success, <code>400 Bad Request</code> on error
+          </p>
 
-        <p>Response Body (JSON):</p>
-        <pre><code>{
+          <p>Response Body (JSON):</p>
+          <pre>
+<code>{
   "success": true|false,
   "message": "Description of the result"
 }</code></pre>
 
-        <h5>Success Response</h5>
-        <pre><code>{
+          <h5>Success Response</h5>
+          <pre>
+<code>{
   "success": true,
   "message": "Callback verified successfully"
 }</code></pre>
 
-        <h5>Error Responses</h5>
-        <pre><code>{
+          <h5>Error Responses</h5>
+          <pre
+          >
+<code>{
   "success": false,
   "message": "Invalid verification token"
 }
@@ -366,56 +421,70 @@ async function subscribeToFeed(topicUrl, callbackUrl) {
 {
   "success": false,
   "message": "Verification token has expired"
-}</code></pre>
+}</code></pre
+          >
 
-        <h5>Notes</h5>
-        <ul>
-          <li>Verification tokens expire after 24 hours</li>
-          <li>This endpoint is primarily for manual verification or debugging</li>
-          <li>In most cases, your callback should handle the verification request automatically</li>
-        </ul>
-      </div>
+          <h5>Notes</h5>
+          <ul>
+            <li>Verification tokens expire after 24 hours</li>
+            <li>This endpoint is primarily for manual verification or debugging</li>
+            <li>
+              In most cases, your callback should handle the verification request automatically
+            </li>
+          </ul>
+        </div>
 
-      <div id="callback-endpoint" class="endpoint">
-        <h4>Callback Endpoint</h4>
-        <p><code>GET/POST /callback/:id</code></p>
-        <p>This endpoint handles callbacks from external WebSub hubs. It's used internally by the system and not meant
-          to be called directly by users.</p>
+        <div id="callback-endpoint" class="endpoint">
+          <h4>Callback Endpoint</h4>
+          <p><code>GET/POST /callback/:id</code></p>
+          <p>
+            This endpoint handles callbacks from external WebSub hubs. It's used internally by the
+            system and not meant to be called directly by users.
+          </p>
 
-        <h5>For Verification (GET)</h5>
-        <p>When a hub verifies a subscription, it sends a GET request with the following parameters:</p>
-        <ul>
-          <li><code>hub.mode</code>: Either "subscribe" or "unsubscribe"</li>
-          <li><code>hub.topic</code>: The feed URL being subscribed to</li>
-          <li><code>hub.challenge</code>: A challenge string that must be echoed back</li>
-          <li><code>hub.lease_seconds</code>: (Optional) The subscription duration in seconds</li>
-        </ul>
+          <h5>For Verification (GET)</h5>
+          <p>
+            When a hub verifies a subscription, it sends a GET request with the following
+            parameters:
+          </p>
+          <ul>
+            <li><code>hub.mode</code>: Either "subscribe" or "unsubscribe"</li>
+            <li><code>hub.topic</code>: The feed URL being subscribed to</li>
+            <li><code>hub.challenge</code>: A challenge string that must be echoed back</li>
+            <li><code>hub.lease_seconds</code>: (Optional) The subscription duration in seconds</li>
+          </ul>
 
-        <h5>For Content Delivery (POST)</h5>
-        <p>When a hub sends content updates, it sends a POST request with:</p>
-        <ul>
-          <li>A <code>Link</code> header containing the topic URL with <code>rel="self"</code></li>
-          <li>The updated feed content in the request body</li>
-        </ul>
+          <h5>For Content Delivery (POST)</h5>
+          <p>When a hub sends content updates, it sends a POST request with:</p>
+          <ul>
+            <li>
+              A <code>Link</code> header containing the topic URL with <code>rel="self"</code>
+            </li>
+            <li>The updated feed content in the request body</li>
+          </ul>
 
-        <p>The service will forward these updates to any registered callback URLs for the topic.</p>
-      </div>
+          <p>
+            The service will forward these updates to any registered callback URLs for the topic.
+          </p>
+        </div>
 
-      <div id="health-check" class="endpoint">
-        <h4>Health Check</h4>
-        <p><code>GET /health</code></p>
-        <p>Check if the service is running properly.</p>
-      </div>
-    </section>
+        <div id="health-check" class="endpoint">
+          <h4>Health Check</h4>
+          <p><code>GET /health</code></p>
+          <p>Check if the service is running properly.</p>
+        </div>
+      </section>
 
-    <section id="examples">
-      <h2>Usage Examples</h2>
+      <section id="examples">
+        <h2>Usage Examples</h2>
 
-      <h3>Publishing Updates</h3>
-      <p>
-        When you update your content, notify the hub:
-      </p>
-      <pre><code>// Using fetch API in JavaScript
+        <h3>Publishing Updates</h3>
+        <p>
+          When you update your content, notify the hub:
+        </p>
+        <pre
+        >
+<code>// Using fetch API in JavaScript
 async function notifyHub(feedUrl) {
   const response = await fetch('https://superduperfeeder.deno.dev/', {
     method: 'POST',
@@ -433,13 +502,16 @@ async function notifyHub(feedUrl) {
   } else {
     console.error('Failed to notify hub:', await response.text());
   }
-}</code></pre>
+}</code></pre
+        >
 
-      <h3>Subscribing to Updates</h3>
-      <p>
-        To subscribe to updates for a feed:
-      </p>
-      <pre><code>// Using fetch API in JavaScript
+        <h3>Subscribing to Updates</h3>
+        <p>
+          To subscribe to updates for a feed:
+        </p>
+        <pre
+        >
+<code>// Using fetch API in JavaScript
 async function subscribe(callbackUrl, topicUrl, leaseSeconds = 86400) {
   const response = await fetch('https://superduperfeeder.deno.dev/', {
     method: 'POST',
@@ -459,18 +531,21 @@ async function subscribe(callbackUrl, topicUrl, leaseSeconds = 86400) {
   } else {
     console.error('Failed to send subscription request:', await response.text());
   }
-}</code></pre>
+}</code></pre
+        >
 
-      <h3>Handling Verification Requests</h3>
-      <p>
-        Your callback endpoint needs to handle two types of verification requests:
-      </p>
+        <h3>Handling Verification Requests</h3>
+        <p>
+          Your callback endpoint needs to handle two types of verification requests:
+        </p>
 
-      <h4>1. WebSub Hub Verification</h4>
-      <p>
-        When a WebSub hub verifies a subscription, it sends a GET request to your callback URL:
-      </p>
-      <pre><code>// Example using Express.js
+        <h4>1. WebSub Hub Verification</h4>
+        <p>
+          When a WebSub hub verifies a subscription, it sends a GET request to your callback URL:
+        </p>
+        <pre
+        >
+<code>// Example using Express.js
 app.get('/callback', (req, res) => {
   // Check if this is a WebSub verification request
   if (req.query['hub.mode'] && req.query['hub.topic']) {
@@ -488,14 +563,17 @@ app.get('/callback', (req, res) => {
   
   // Handle other types of requests
   res.status(400).send('Invalid request');
-});</code></pre>
+});</code></pre
+        >
 
-      <h4>2. Callback Ownership Verification</h4>
-      <p>
-        When you register a callback URL with Super Duper Feeder, it sends a verification request to confirm you own the
-        URL:
-      </p>
-      <pre><code>// Example using Express.js
+        <h4>2. Callback Ownership Verification</h4>
+        <p>
+          When you register a callback URL with Super Duper Feeder, it sends a verification request
+          to confirm you own the URL:
+        </p>
+        <pre
+        >
+<code>// Example using Express.js
 app.get('/callback', (req, res) => {
   // Check if this is a callback verification request
   if (req.query.mode === 'verify' && req.query.token) {
@@ -506,13 +584,16 @@ app.get('/callback', (req, res) => {
   
   // Handle WebSub verification or other requests
   // ...
-});</code></pre>
+});</code></pre
+        >
 
-      <h4>Combined Handler</h4>
-      <p>
-        You can combine both handlers in a single endpoint:
-      </p>
-      <pre><code>// Example using Express.js
+        <h4>Combined Handler</h4>
+        <p>
+          You can combine both handlers in a single endpoint:
+        </p>
+        <pre
+        >
+<code>// Example using Express.js
 app.get('/callback', (req, res) => {
   // Check if this is a callback verification request
   if (req.query.mode === 'verify' && req.query.token) {
@@ -535,13 +616,16 @@ app.get('/callback', (req, res) => {
   
   // Handle other types of requests
   res.status(400).send('Invalid request');
-});</code></pre>
+});</code></pre
+        >
 
-      <h3>Receiving Updates</h3>
-      <p>
-        When the hub sends updates to your callback URL:
-      </p>
-      <pre><code>// Example using Express.js
+        <h3>Receiving Updates</h3>
+        <p>
+          When the hub sends updates to your callback URL:
+        </p>
+        <pre
+        >
+<code>// Example using Express.js
 app.post('/callback', express.raw({ type: 'application/atom+xml' }), (req, res) => {
   const contentType = req.headers['content-type'];
   const body = req.body.toString();
@@ -551,96 +635,129 @@ app.post('/callback', express.raw({ type: 'application/atom+xml' }), (req, res) 
   
   // Acknowledge receipt
   res.status(200).end();
-});</code></pre>
-    </section>
+});</code></pre
+        >
+      </section>
 
-    <section id="best-practices">
-      <h2>Best Practices</h2>
-      <ul>
-        <li><strong>Implement callback verification properly</strong>
-          <p>Always ensure your callback endpoint correctly handles verification requests. This is essential for
-            security and ensures your callback will receive updates.</p>
-        </li>
-        <li><strong>Verify subscription requests</strong>
-          <p>When implementing a callback endpoint, always verify subscription requests to prevent spam.</p>
-        </li>
-        <li><strong>Handle both verification types</strong>
-          <p>Your callback endpoint should be able to handle both WebSub hub verification and callback ownership
-            verification.</p>
-        </li>
-        <li><strong>Implement proper error handling</strong>
-          <p>Add robust error handling for all API calls and webhook processing.</p>
-        </li>
-        <li><strong>Use appropriate lease times</strong>
-          <p>For WebSub subscriptions, use appropriate lease times (typically 1-7 days).</p>
-        </li>
-        <li><strong>Implement retry logic</strong>
-          <p>Add retry logic for failed webhook deliveries to ensure you don't miss updates.</p>
-        </li>
-        <li><strong>Consider real-time alternatives</strong>
-          <p>For some applications, WebSockets or SSE might be more appropriate than webhooks.</p>
-        </li>
-        <li><strong>Ensure quick responses</strong>
-          <p>Your callback endpoint should respond quickly to verification requests and content deliveries.</p>
-        </li>
-      </ul>
-    </section>
+      <section id="best-practices">
+        <h2>Best Practices</h2>
+        <ul>
+          <li>
+            <strong>Implement callback verification properly</strong>
+            <p>
+              Always ensure your callback endpoint correctly handles verification requests. This is
+              essential for security and ensures your callback will receive updates.
+            </p>
+          </li>
+          <li>
+            <strong>Verify subscription requests</strong>
+            <p>
+              When implementing a callback endpoint, always verify subscription requests to prevent
+              spam.
+            </p>
+          </li>
+          <li>
+            <strong>Handle both verification types</strong>
+            <p>
+              Your callback endpoint should be able to handle both WebSub hub verification and
+              callback ownership verification.
+            </p>
+          </li>
+          <li>
+            <strong>Implement proper error handling</strong>
+            <p>Add robust error handling for all API calls and webhook processing.</p>
+          </li>
+          <li>
+            <strong>Use appropriate lease times</strong>
+            <p>For WebSub subscriptions, use appropriate lease times (typically 1-7 days).</p>
+          </li>
+          <li>
+            <strong>Implement retry logic</strong>
+            <p>Add retry logic for failed webhook deliveries to ensure you don't miss updates.</p>
+          </li>
+          <li>
+            <strong>Consider real-time alternatives</strong>
+            <p>For some applications, WebSockets or SSE might be more appropriate than webhooks.</p>
+          </li>
+          <li>
+            <strong>Ensure quick responses</strong>
+            <p>
+              Your callback endpoint should respond quickly to verification requests and content
+              deliveries.
+            </p>
+          </li>
+        </ul>
+      </section>
 
-    <section id="troubleshooting">
-      <h2>Troubleshooting</h2>
-      <h3>Common Issues</h3>
-      <ul>
-        <li>
-          <strong>Callback verification fails</strong>
-          <p>If your callback URL is not being verified:</p>
-          <ul>
-            <li>Ensure your callback URL is publicly accessible (not localhost or behind a firewall)</li>
-            <li>Check that your endpoint correctly responds to verification requests by returning the token</li>
-            <li>Verify that your endpoint responds with a 200 OK status code</li>
-            <li>Make sure the response body contains only the token, with no extra whitespace or HTML</li>
-            <li>If using a framework, ensure it's not adding any extra content to the response</li>
-          </ul>
-        </li>
-        <li>
-          <strong>Verification token expired</strong>
-          <p>If you see "Verification token has expired":</p>
-          <ul>
-            <li>Tokens expire after 24 hours</li>
-            <li>Submit a new subscription request to get a new verification token</li>
-            <li>Ensure your callback endpoint is set up correctly before requesting a new token</li>
-          </ul>
-        </li>
-        <li>
-          <strong>Not receiving updates</strong>
-          <p>If your callback is not receiving updates:</p>
-          <ul>
-            <li>Check that your callback has been verified (the pendingVerification flag should be false)</li>
-            <li>Ensure your callback endpoint is functioning properly</li>
-            <li>Check that the subscription is active and has not expired</li>
-            <li>Verify that the feed is actually being updated</li>
-          </ul>
-        </li>
-        <li>
-          <strong>WebSub hub verification fails</strong>
-          <p>If the WebSub hub verification fails:</p>
-          <ul>
-            <li>Ensure your callback URL is publicly accessible</li>
-            <li>Check that your endpoint correctly responds to hub.challenge requests</li>
-            <li>Verify that your endpoint responds with the exact challenge string</li>
-          </ul>
-        </li>
-        <li>
-          <strong>WebSocket connection drops</strong>
-          <p>Implement reconnection logic with exponential backoff.</p>
-        </li>
-      </ul>
-    </section>
-  </main>
+      <section id="troubleshooting">
+        <h2>Troubleshooting</h2>
+        <h3>Common Issues</h3>
+        <ul>
+          <li>
+            <strong>Callback verification fails</strong>
+            <p>If your callback URL is not being verified:</p>
+            <ul>
+              <li>
+                Ensure your callback URL is publicly accessible (not localhost or behind a firewall)
+              </li>
+              <li>
+                Check that your endpoint correctly responds to verification requests by returning
+                the token
+              </li>
+              <li>Verify that your endpoint responds with a 200 OK status code</li>
+              <li>
+                Make sure the response body contains only the token, with no extra whitespace or
+                HTML
+              </li>
+              <li>
+                If using a framework, ensure it's not adding any extra content to the response
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Verification token expired</strong>
+            <p>If you see "Verification token has expired":</p>
+            <ul>
+              <li>Tokens expire after 24 hours</li>
+              <li>Submit a new subscription request to get a new verification token</li>
+              <li>
+                Ensure your callback endpoint is set up correctly before requesting a new token
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Not receiving updates</strong>
+            <p>If your callback is not receiving updates:</p>
+            <ul>
+              <li>
+                Check that your callback has been verified (the pendingVerification flag should be
+                false)
+              </li>
+              <li>Ensure your callback endpoint is functioning properly</li>
+              <li>Check that the subscription is active and has not expired</li>
+              <li>Verify that the feed is actually being updated</li>
+            </ul>
+          </li>
+          <li>
+            <strong>WebSub hub verification fails</strong>
+            <p>If the WebSub hub verification fails:</p>
+            <ul>
+              <li>Ensure your callback URL is publicly accessible</li>
+              <li>Check that your endpoint correctly responds to hub.challenge requests</li>
+              <li>Verify that your endpoint responds with the exact challenge string</li>
+            </ul>
+          </li>
+          <li>
+            <strong>WebSocket connection drops</strong>
+            <p>Implement reconnection logic with exponential backoff.</p>
+          </li>
+        </ul>
+      </section>
+    </main>
 
-  <footer>
-    <p>Super Duper Feeder - A WebSub/PubSubHubbub service</p>
-    <p><a href="/">Back to Home</a></p>
-  </footer>
-</body>
-
+    <footer>
+      <p>Super Duper Feeder - A WebSub/PubSubHubbub service</p>
+      <p><a href="/">Back to Home</a></p>
+    </footer>
+  </body>
 </html>

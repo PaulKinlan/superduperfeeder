@@ -1,167 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unsubscribe from Topic - Super Duper Feeder</title>
+    <link rel="stylesheet" href="/ui/styles.css">
+    <style>
+      .form-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f5f5f5;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unsubscribe from Topic - Super Duper Feeder</title>
-  <link rel="stylesheet" href="/ui/styles.css">
-  <style>
-    .form-container {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 20px;
-      background-color: #f5f5f5;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
+      .form-group {
+        margin-bottom: 20px;
+      }
 
-    .form-group {
-      margin-bottom: 20px;
-    }
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
 
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
+      input[type="text"],
+      input[type="url"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+      }
 
-    input[type="text"],
-    input[type="url"] {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-size: 16px;
-    }
+      button {
+        background-color: #e74c3c;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
 
-    button {
-      background-color: #e74c3c;
-      color: white;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-    }
+      button:hover {
+        background-color: #c0392b;
+      }
 
-    button:hover {
-      background-color: #c0392b;
-    }
+      .response-container {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 4px;
+        display: none;
+      }
 
-    .response-container {
-      margin-top: 20px;
-      padding: 15px;
-      border-radius: 4px;
-      display: none;
-    }
+      .success {
+        background-color: #dff0d8;
+        border: 1px solid #d6e9c6;
+        color: #3c763d;
+      }
 
-    .success {
-      background-color: #dff0d8;
-      border: 1px solid #d6e9c6;
-      color: #3c763d;
-    }
+      .error {
+        background-color: #f2dede;
+        border: 1px solid #ebccd1;
+        color: #a94442;
+      }
+    </style>
+  </head>
 
-    .error {
-      background-color: #f2dede;
-      border: 1px solid #ebccd1;
-      color: #a94442;
-    }
-  </style>
-</head>
+  <body>
+    <header>
+      <h1>Super Duper Feeder</h1>
+      <p>A Spec compliant WebSub/PubSubHubbub service</p>
+      <nav>
+        <a href="/ui/index.html">Home</a>
+        <a href="/ui/subscribe.html">Subscribe</a>
+        <a href="/ui/unsubscribe.html" class="active">Unsubscribe</a>
+        <a href="/ui/subscriptions.html">Manage Subscriptions</a>
+        <a href="/admin/index.html">Admin Panel</a>
+      </nav>
+    </header>
 
-<body>
-  <header>
-    <h1>Super Duper Feeder</h1>
-    <p>A Spec compliant WebSub/PubSubHubbub service</p>
-    <nav>
-      <a href="/ui/index.html">Home</a>
-      <a href="/ui/subscribe.html">Subscribe</a>
-      <a href="/ui/unsubscribe.html" class="active">Unsubscribe</a>
-      <a href="/ui/subscriptions.html">Manage Subscriptions</a>
-      <a href="/admin/index.html">Admin Panel</a>
-    </nav>
-  </header>
+    <main>
+      <section>
+        <h2>Unsubscribe from a Topic</h2>
+        <p>Use this form to unsubscribe from a topic you previously subscribed to.</p>
 
-  <main>
-    <section>
-      <h2>Unsubscribe from a Topic</h2>
-      <p>Use this form to unsubscribe from a topic you previously subscribed to.</p>
+        <div class="form-container">
+          <form id="unsubscription-form">
+            <div class="form-group">
+              <label for="topic">Topic URL (Required)</label>
+              <input
+                type="url"
+                id="topic"
+                name="topic"
+                placeholder="https://example.com/feed.xml"
+                required
+              >
+              <small>The URL of the feed you want to unsubscribe from</small>
+            </div>
 
-      <div class="form-container">
-        <form id="unsubscription-form">
-          <div class="form-group">
-            <label for="topic">Topic URL (Required)</label>
-            <input type="url" id="topic" name="topic" placeholder="https://example.com/feed.xml" required>
-            <small>The URL of the feed you want to unsubscribe from</small>
-          </div>
+            <div class="form-group">
+              <label for="callback">Callback URL (Required)</label>
+              <input
+                type="url"
+                id="callback"
+                name="callback"
+                placeholder="https://your-site.com/callback"
+                required
+              >
+              <small>The callback URL you used when subscribing</small>
+            </div>
 
-          <div class="form-group">
-            <label for="callback">Callback URL (Required)</label>
-            <input type="url" id="callback" name="callback" placeholder="https://your-site.com/callback" required>
-            <small>The callback URL you used when subscribing</small>
-          </div>
+            <div class="form-group">
+              <button type="submit">Unsubscribe</button>
+            </div>
+          </form>
 
-          <div class="form-group">
-            <button type="submit">Unsubscribe</button>
-          </div>
-        </form>
+          <div id="response" class="response-container"></div>
+        </div>
+      </section>
+    </main>
 
-        <div id="response" class="response-container"></div>
-      </div>
-    </section>
-  </main>
+    <footer>
+      <p>Super Duper Feeder - A WebSub/PubSubHubbub service</p>
+    </footer>
 
-  <footer>
-    <p>Super Duper Feeder - A WebSub/PubSubHubbub service</p>
-  </footer>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("unsubscription-form");
+        const responseContainer = document.getElementById("response");
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const form = document.getElementById('unsubscription-form');
-      const responseContainer = document.getElementById('response');
+        form.addEventListener("submit", async function (e) {
+          e.preventDefault();
 
-      form.addEventListener('submit', async function (e) {
-        e.preventDefault();
+          // Get form values
+          const topic = document.getElementById("topic").value;
+          const callback = document.getElementById("callback").value;
 
-        // Get form values
-        const topic = document.getElementById('topic').value;
-        const callback = document.getElementById('callback').value;
+          // Create form data
+          const formData = new FormData();
+          formData.append("hub.mode", "unsubscribe");
+          formData.append("hub.topic", topic);
+          formData.append("hub.callback", callback);
 
-        // Create form data
-        const formData = new FormData();
-        formData.append('hub.mode', 'unsubscribe');
-        formData.append('hub.topic', topic);
-        formData.append('hub.callback', callback);
+          try {
+            // Send the unsubscription request
+            const response = await fetch("/api/unsubscribe", {
+              method: "POST",
+              body: formData,
+            });
 
-        try {
-          // Send the unsubscription request
-          const response = await fetch('/api/unsubscribe', {
-            method: 'POST',
-            body: formData
-          });
+            // Parse the response
+            const result = await response.json();
 
-          // Parse the response
-          const result = await response.json();
+            // Display the response
+            responseContainer.textContent = result.message;
+            responseContainer.className = "response-container " +
+              (result.success ? "success" : "error");
+            responseContainer.style.display = "block";
 
-          // Display the response
-          responseContainer.textContent = result.message;
-          responseContainer.className = 'response-container ' + (result.success ? 'success' : 'error');
-          responseContainer.style.display = 'block';
-
-          // Clear form if successful
-          if (result.success) {
-            form.reset();
+            // Clear form if successful
+            if (result.success) {
+              form.reset();
+            }
+          } catch (error) {
+            // Display error
+            responseContainer.textContent = "Error: " + error.message;
+            responseContainer.className = "response-container error";
+            responseContainer.style.display = "block";
           }
-        } catch (error) {
-          // Display error
-          responseContainer.textContent = 'Error: ' + error.message;
-          responseContainer.className = 'response-container error';
-          responseContainer.style.display = 'block';
-        }
+        });
       });
-    });
-  </script>
-</body>
-
+    </script>
+  </body>
 </html>

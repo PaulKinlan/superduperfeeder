@@ -8,12 +8,7 @@ export { Router } from "@oak/oak";
 export { oakCors } from "@tajpouria/cors";
 
 // Authentication - using Web Crypto API for Deno Deploy compatibility
-export { hash, compare } from "./utils/crypto.ts";
+export { compare, hash } from "./utils/crypto.ts";
 
 // RSS parsing
 export { parseFeed } from "@mikaelporttila/rss";
-
-// Deno.cron is a built-in API, no need to import
-
-// Import these directly in files that need them:
-// import type { Context, Next } from "@oak/oak";

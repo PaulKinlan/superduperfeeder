@@ -14,7 +14,6 @@ export class Database {
   private kv: Deno.Kv;
 
   // Stores
-  public subscriptions: SubscriptionStore;
   public feeds: FeedStore;
   public users: UserStore;
   public externalSubscriptions: ExternalSubscriptionStore;
@@ -25,7 +24,6 @@ export class Database {
     this.kv = kv;
 
     // Initialize stores
-    this.subscriptions = new SubscriptionStore(kv);
     this.feeds = new FeedStore(kv);
     this.users = new UserStore(kv);
     this.externalSubscriptions = new ExternalSubscriptionStore(kv);

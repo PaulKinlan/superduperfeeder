@@ -30,6 +30,12 @@ router.post("/api/webhook", async (ctx: Context) => {
 
     // Call WebhookService.subscribeToFeed with the callback URL
     const result = await WebhookService.subscribeToFeed(topic, callback);
+    console.log(
+      "WebhookService.subscribeToFeed result:",
+      result,
+      topic,
+      callback
+    );
 
     // Return appropriate response
     ctx.response.status = result.success ? 202 : 400;
@@ -57,7 +63,7 @@ router.post("/api/webhook", async (ctx: Context) => {
   }
 });
 
-// Callback route for external hubs
+// Callback route for external hubs. They will tell us when there is new content, or they need to verify our subscription.
 router.all("/callback/:id", async (ctx: Context) => {
   try {
     // Get the ID from the URL path

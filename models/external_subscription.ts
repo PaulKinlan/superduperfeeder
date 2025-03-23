@@ -31,7 +31,7 @@ export class ExternalSubscriptionStore {
 
   // Create a new external subscription
   async create(
-    data: Omit<ExternalSubscription, "id" | "created" | "errorCount">
+    data: Omit<ExternalSubscription, "id" | "created" | "errorCount">,
   ): Promise<ExternalSubscription> {
     const id = crypto.randomUUID();
     const subscription: ExternalSubscription = {
@@ -50,7 +50,7 @@ export class ExternalSubscriptionStore {
     // Also create an index by callback path
     await this.kv.set(
       ["external_subscriptions_by_callback", data.callbackPath],
-      id
+      id,
     );
 
     return subscription;
@@ -81,7 +81,7 @@ export class ExternalSubscriptionStore {
 
   // Get an external subscription by callback path
   async getByCallbackPath(
-    callbackPath: string
+    callbackPath: string,
   ): Promise<ExternalSubscription | null> {
     const idResult = await this.kv.get<string>([
       "external_subscriptions_by_callback",
@@ -99,7 +99,7 @@ export class ExternalSubscriptionStore {
   async update(subscription: ExternalSubscription): Promise<void> {
     await this.kv.set(
       ["external_subscriptions", subscription.id],
-      subscription
+      subscription,
     );
   }
 
@@ -148,7 +148,7 @@ export class ExternalSubscriptionStore {
 
   // Get external subscriptions that need renewal
   async getNeedingRenewal(
-    renewalWindowMinutes = 60
+    renewalWindowMinutes = 60,
   ): Promise<ExternalSubscription[]> {
     const now = new Date();
     const renewalThreshold = new Date(now);
@@ -157,8 +157,7 @@ export class ExternalSubscriptionStore {
     const all = await this.getAll();
 
     return all.filter(
-      (subscription) =>
-        subscription.verified && subscription.expires < renewalThreshold
+      (subscription) => subscription.verified && subscription.expires < renewalThreshold,
     );
   }
 }

@@ -8,7 +8,7 @@ export function generateMockRssFeed(
     link?: string;
     items?: number;
     webSubHub?: boolean;
-  } = {}
+  } = {},
 ): string {
   const title = options.title || "Test Feed";
   const description = options.description || "A test feed for unit testing";
@@ -61,7 +61,7 @@ export function generateMockAtomFeed(
     link?: string;
     entries?: number;
     webSubHub?: boolean;
-  } = {}
+  } = {},
 ): string {
   const title = options.title || "Test Feed";
   const subtitle = options.subtitle || "A test feed for unit testing";

@@ -55,7 +55,7 @@ export async function getTestDatabase(): Promise<Database> {
     // Initialize test data
     try {
       const adminUser = await dbInstance.users.getByUsername(
-        testConfig.admin.username
+        testConfig.admin.username,
       );
       if (!adminUser) {
         await initTestData(dbInstance);

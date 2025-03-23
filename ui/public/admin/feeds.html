@@ -1,314 +1,318 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Feeds - Super Duper Feeder</title>
+    <link rel="stylesheet" href="/ui/styles.css">
+    <link rel="stylesheet" href="/admin/styles.css">
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manage Feeds - Super Duper Feeder</title>
-  <link rel="stylesheet" href="/ui/styles.css">
-  <link rel="stylesheet" href="/admin/styles.css">
-</head>
+  <body>
+    <header>
+      <h1>Super Duper Feeder - Admin</h1>
+      <p>Administration Dashboard</p>
+      <nav>
+        <a href="/ui/index.html">Home</a>
+        <a href="/admin/index.html">Dashboard</a>
+        <a href="/admin/feeds.html" class="active">Feeds</a>
+        <a href="/admin/items.html">Feed Items</a>
+        <a href="/admin/subscriptions.html">Subscriptions</a>
+      </nav>
+    </header>
 
-<body>
-  <header>
-    <h1>Super Duper Feeder - Admin</h1>
-    <p>Administration Dashboard</p>
-    <nav>
-      <a href="/ui/index.html">Home</a>
-      <a href="/admin/index.html">Dashboard</a>
-      <a href="/admin/feeds.html" class="active">Feeds</a>
-      <a href="/admin/items.html">Feed Items</a>
-      <a href="/admin/subscriptions.html">Subscriptions</a>
-    </nav>
-  </header>
+    <main>
+      <section id="feeds">
+        <h2>Manage Feeds</h2>
+        <p>View and manage all tracked feeds.</p>
 
-  <main>
-    <section id="feeds">
-      <h2>Manage Feeds</h2>
-      <p>View and manage all tracked feeds.</p>
-
-      <div class="filters-container">
-        <div class="filters-grid">
-          <div class="filter-group">
-            <label for="status-filter">Status</label>
-            <select id="status-filter">
-              <option value="">All</option>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-              <option value="error">With Errors</option>
-            </select>
+        <div class="filters-container">
+          <div class="filters-grid">
+            <div class="filter-group">
+              <label for="status-filter">Status</label>
+              <select id="status-filter">
+                <option value="">All</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+                <option value="error">With Errors</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="url-filter">URL Contains</label>
+              <input type="text" id="url-filter" placeholder="Filter by URL...">
+            </div>
+            <div class="filter-group">
+              <label for="title-filter">Title Contains</label>
+              <input type="text" id="title-filter" placeholder="Filter by title...">
+            </div>
+            <div class="filter-group">
+              <label for="description-filter">Description Contains</label>
+              <input type="text" id="description-filter" placeholder="Filter by description...">
+            </div>
+            <div class="filter-group">
+              <label for="websub-filter">WebSub Support</label>
+              <select id="websub-filter">
+                <option value="">All</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="sort-filter">Sort By</label>
+              <select id="sort-filter">
+                <option value="lastFetched">Last Fetched</option>
+                <option value="lastUpdated">Last Updated</option>
+                <option value="url">URL</option>
+                <option value="title">Title</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="order-filter">Order</label>
+              <select id="order-filter">
+                <option value="desc">Descending</option>
+                <option value="asc">Ascending</option>
+              </select>
+            </div>
           </div>
-          <div class="filter-group">
-            <label for="url-filter">URL Contains</label>
-            <input type="text" id="url-filter" placeholder="Filter by URL...">
-          </div>
-          <div class="filter-group">
-            <label for="title-filter">Title Contains</label>
-            <input type="text" id="title-filter" placeholder="Filter by title...">
-          </div>
-          <div class="filter-group">
-            <label for="description-filter">Description Contains</label>
-            <input type="text" id="description-filter" placeholder="Filter by description...">
-          </div>
-          <div class="filter-group">
-            <label for="websub-filter">WebSub Support</label>
-            <select id="websub-filter">
-              <option value="">All</option>
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
-            </select>
-          </div>
-          <div class="filter-group">
-            <label for="sort-filter">Sort By</label>
-            <select id="sort-filter">
-              <option value="lastFetched">Last Fetched</option>
-              <option value="lastUpdated">Last Updated</option>
-              <option value="url">URL</option>
-              <option value="title">Title</option>
-            </select>
-          </div>
-          <div class="filter-group">
-            <label for="order-filter">Order</label>
-            <select id="order-filter">
-              <option value="desc">Descending</option>
-              <option value="asc">Ascending</option>
-            </select>
-          </div>
-        </div>
-        <div class="filter-buttons">
-          <button id="apply-filters">Apply Filters</button>
-          <button id="reset-filters">Reset</button>
-        </div>
-      </div>
-
-      <div class="table-container">
-        <table id="feeds-table">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>URL</th>
-              <th>Status</th>
-              <th>Last Fetched</th>
-              <th>Next Update</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="feeds-table-body">
-            <tr>
-              <td colspan="6" class="loading-message">Loading feeds...</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <section id="feed-detail" style="display: none;">
-      <h2>Feed Details</h2>
-      <div class="feed-details">
-        <h3 id="feed-title">Feed Title</h3>
-        <div class="feed-details-grid">
-          <div class="feed-detail-item">
-            <div class="feed-detail-label">URL</div>
-            <div id="feed-url"></div>
-          </div>
-          <div class="feed-detail-item">
-            <div class="feed-detail-label">Status</div>
-            <div id="feed-status"></div>
-          </div>
-          <div class="feed-detail-item">
-            <div class="feed-detail-label">Last Fetched</div>
-            <div id="feed-last-fetched"></div>
-          </div>
-          <div class="feed-detail-item">
-            <div class="feed-detail-label">Last Updated</div>
-            <div id="feed-last-updated"></div>
-          </div>
-          <div class="feed-detail-item">
-            <div class="feed-detail-label">Next Update</div>
-            <div id="feed-next-update"></div>
-          </div>
-          <div class="feed-detail-item">
-            <div class="feed-detail-label">Polling Interval</div>
-            <div id="feed-polling-interval"></div>
-          </div>
-          <div class="feed-detail-item">
-            <div class="feed-detail-label">WebSub Support</div>
-            <div id="feed-websub"></div>
-          </div>
-          <div class="feed-detail-item">
-            <div class="feed-detail-label">WebSub Hub</div>
-            <div id="feed-websub-hub"></div>
-          </div>
-          <div class="feed-detail-item">
-            <div class="feed-detail-label">Error Count</div>
-            <div id="feed-error-count"></div>
-          </div>
-          <div class="feed-detail-item">
-            <div class="feed-detail-label">Last Error</div>
-            <div id="feed-last-error"></div>
+          <div class="filter-buttons">
+            <button id="apply-filters">Apply Filters</button>
+            <button id="reset-filters">Reset</button>
           </div>
         </div>
 
-        <div class="feed-actions">
-          <button id="toggle-active" class="action-button">Toggle Active Status</button>
-          <button id="force-update" class="action-button">Force Update</button>
-          <button id="view-items" class="action-button">View Feed Items</button>
-          <button id="back-to-feeds" class="action-button">Back to Feeds List</button>
-        </div>
-      </div>
-
-      <div id="feed-items-container" style="display: none;">
-        <h3>Feed Items</h3>
         <div class="table-container">
-          <table id="feed-items-table">
+          <table id="feeds-table">
             <thead>
               <tr>
                 <th>Title</th>
-                <th>Published</th>
-                <th>Author</th>
+                <th>URL</th>
+                <th>Status</th>
+                <th>Last Fetched</th>
+                <th>Next Update</th>
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody id="feed-items-table-body">
+            <tbody id="feeds-table-body">
               <tr>
-                <td colspan="4" class="loading-message">Loading items...</td>
+                <td colspan="6" class="loading-message">Loading feeds...</td>
               </tr>
             </tbody>
           </table>
         </div>
-      </div>
-    </section>
-  </main>
+      </section>
 
-  <footer>
-    <p>Super Duper Feeder - A WebSub/PubSubHubbub service</p>
-  </footer>
+      <section id="feed-detail" style="display: none">
+        <h2>Feed Details</h2>
+        <div class="feed-details">
+          <h3 id="feed-title">Feed Title</h3>
+          <div class="feed-details-grid">
+            <div class="feed-detail-item">
+              <div class="feed-detail-label">URL</div>
+              <div id="feed-url"></div>
+            </div>
+            <div class="feed-detail-item">
+              <div class="feed-detail-label">Status</div>
+              <div id="feed-status"></div>
+            </div>
+            <div class="feed-detail-item">
+              <div class="feed-detail-label">Last Fetched</div>
+              <div id="feed-last-fetched"></div>
+            </div>
+            <div class="feed-detail-item">
+              <div class="feed-detail-label">Last Updated</div>
+              <div id="feed-last-updated"></div>
+            </div>
+            <div class="feed-detail-item">
+              <div class="feed-detail-label">Next Update</div>
+              <div id="feed-next-update"></div>
+            </div>
+            <div class="feed-detail-item">
+              <div class="feed-detail-label">Polling Interval</div>
+              <div id="feed-polling-interval"></div>
+            </div>
+            <div class="feed-detail-item">
+              <div class="feed-detail-label">WebSub Support</div>
+              <div id="feed-websub"></div>
+            </div>
+            <div class="feed-detail-item">
+              <div class="feed-detail-label">WebSub Hub</div>
+              <div id="feed-websub-hub"></div>
+            </div>
+            <div class="feed-detail-item">
+              <div class="feed-detail-label">Error Count</div>
+              <div id="feed-error-count"></div>
+            </div>
+            <div class="feed-detail-item">
+              <div class="feed-detail-label">Last Error</div>
+              <div id="feed-last-error"></div>
+            </div>
+          </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // Elements
-      const feedsSection = document.getElementById('feeds');
-      const feedDetailSection = document.getElementById('feed-detail');
-      const feedItemsContainer = document.getElementById('feed-items-container');
+          <div class="feed-actions">
+            <button id="toggle-active" class="action-button">Toggle Active Status</button>
+            <button id="force-update" class="action-button">Force Update</button>
+            <button id="view-items" class="action-button">View Feed Items</button>
+            <button id="back-to-feeds" class="action-button">Back to Feeds List</button>
+          </div>
+        </div>
 
-      // Filter elements
-      const statusFilter = document.getElementById('status-filter');
-      const urlFilter = document.getElementById('url-filter');
-      const titleFilter = document.getElementById('title-filter');
-      const descriptionFilter = document.getElementById('description-filter');
-      const webSubFilter = document.getElementById('websub-filter');
-      const sortFilter = document.getElementById('sort-filter');
-      const orderFilter = document.getElementById('order-filter');
-      const applyFiltersBtn = document.getElementById('apply-filters');
-      const resetFiltersBtn = document.getElementById('reset-filters');
+        <div id="feed-items-container" style="display: none">
+          <h3>Feed Items</h3>
+          <div class="table-container">
+            <table id="feed-items-table">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Published</th>
+                  <th>Author</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="feed-items-table-body">
+                <tr>
+                  <td colspan="4" class="loading-message">Loading items...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
 
-      // Feed detail elements
-      const feedTitle = document.getElementById('feed-title');
-      const feedUrl = document.getElementById('feed-url');
-      const feedStatus = document.getElementById('feed-status');
-      const feedLastFetched = document.getElementById('feed-last-fetched');
-      const feedLastUpdated = document.getElementById('feed-last-updated');
-      const feedNextUpdate = document.getElementById('feed-next-update');
-      const feedPollingInterval = document.getElementById('feed-polling-interval');
-      const feedWebSub = document.getElementById('feed-websub');
-      const feedWebSubHub = document.getElementById('feed-websub-hub');
-      const feedErrorCount = document.getElementById('feed-error-count');
-      const feedLastError = document.getElementById('feed-last-error');
+    <footer>
+      <p>Super Duper Feeder - A WebSub/PubSubHubbub service</p>
+    </footer>
 
-      // Action buttons
-      const toggleActiveBtn = document.getElementById('toggle-active');
-      const forceUpdateBtn = document.getElementById('force-update');
-      const viewItemsBtn = document.getElementById('view-items');
-      const backToFeedsBtn = document.getElementById('back-to-feeds');
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Elements
+        const feedsSection = document.getElementById("feeds");
+        const feedDetailSection = document.getElementById("feed-detail");
+        const feedItemsContainer = document.getElementById("feed-items-container");
 
-      // Current feed ID
-      let currentFeedId = null;
+        // Filter elements
+        const statusFilter = document.getElementById("status-filter");
+        const urlFilter = document.getElementById("url-filter");
+        const titleFilter = document.getElementById("title-filter");
+        const descriptionFilter = document.getElementById("description-filter");
+        const webSubFilter = document.getElementById("websub-filter");
+        const sortFilter = document.getElementById("sort-filter");
+        const orderFilter = document.getElementById("order-filter");
+        const applyFiltersBtn = document.getElementById("apply-filters");
+        const resetFiltersBtn = document.getElementById("reset-filters");
 
-      // Load feeds on page load
-      loadFeeds();
+        // Feed detail elements
+        const feedTitle = document.getElementById("feed-title");
+        const feedUrl = document.getElementById("feed-url");
+        const feedStatus = document.getElementById("feed-status");
+        const feedLastFetched = document.getElementById("feed-last-fetched");
+        const feedLastUpdated = document.getElementById("feed-last-updated");
+        const feedNextUpdate = document.getElementById("feed-next-update");
+        const feedPollingInterval = document.getElementById("feed-polling-interval");
+        const feedWebSub = document.getElementById("feed-websub");
+        const feedWebSubHub = document.getElementById("feed-websub-hub");
+        const feedErrorCount = document.getElementById("feed-error-count");
+        const feedLastError = document.getElementById("feed-last-error");
 
-      // Event listeners
-      applyFiltersBtn.addEventListener('click', loadFeeds);
-      resetFiltersBtn.addEventListener('click', resetFilters);
-      backToFeedsBtn.addEventListener('click', showFeedsList);
-      viewItemsBtn.addEventListener('click', toggleFeedItems);
-      toggleActiveBtn.addEventListener('click', toggleFeedActive);
-      forceUpdateBtn.addEventListener('click', forceFeedUpdate);
+        // Action buttons
+        const toggleActiveBtn = document.getElementById("toggle-active");
+        const forceUpdateBtn = document.getElementById("force-update");
+        const viewItemsBtn = document.getElementById("view-items");
+        const backToFeedsBtn = document.getElementById("back-to-feeds");
 
-      // Functions
-      function loadFeeds() {
-        const status = statusFilter.value;
-        const url_filter = urlFilter.value;
-        const title = titleFilter.value;
-        const description = descriptionFilter.value;
-        const websub = webSubFilter.value;
-        const sort = sortFilter.value;
-        const order = orderFilter.value;
+        // Current feed ID
+        let currentFeedId = null;
 
-        let url = `/api/admin/feeds?sort=${sort}&order=${order}`;
-        if (status) {
-          url += `&status=${status}`;
-        }
-        if (url_filter) {
-          url += `&url=${encodeURIComponent(url_filter)}`;
-        }
-        if (title) {
-          url += `&title=${encodeURIComponent(title)}`;
-        }
-        if (description) {
-          url += `&description=${encodeURIComponent(description)}`;
-        }
-        if (websub) {
-          url += `&websub=${websub}`;
-        }
+        // Load feeds on page load
+        loadFeeds();
 
-        const tableBody = document.getElementById('feeds-table-body');
-        tableBody.innerHTML = '<tr><td colspan="6" class="loading-message">Loading feeds...</td></tr>';
+        // Event listeners
+        applyFiltersBtn.addEventListener("click", loadFeeds);
+        resetFiltersBtn.addEventListener("click", resetFilters);
+        backToFeedsBtn.addEventListener("click", showFeedsList);
+        viewItemsBtn.addEventListener("click", toggleFeedItems);
+        toggleActiveBtn.addEventListener("click", toggleFeedActive);
+        forceUpdateBtn.addEventListener("click", forceFeedUpdate);
 
-        fetch(url)
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-          })
-          .then(feeds => {
-            if (feeds.length === 0) {
-              tableBody.innerHTML = '<tr><td colspan="6" class="empty-message">No feeds found</td></tr>';
-              return;
-            }
+        // Functions
+        function loadFeeds() {
+          const status = statusFilter.value;
+          const url_filter = urlFilter.value;
+          const title = titleFilter.value;
+          const description = descriptionFilter.value;
+          const websub = webSubFilter.value;
+          const sort = sortFilter.value;
+          const order = orderFilter.value;
 
-            tableBody.innerHTML = feeds.map(feed => {
-              const title = feed.title || 'Untitled';
-              const status = feed.active
-                ? '<span class="success-badge">Active</span>'
-                : '<span class="warning-badge">Inactive</span>';
-              const errorBadge = feed.errorCount > 0
-                ? `<span class="error-badge">Error (${feed.errorCount})</span>`
-                : '';
-              const lastFetched = feed.lastFetched
-                ? new Date(feed.lastFetched).toLocaleString()
-                : 'Never';
+          let url = `/api/admin/feeds?sort=${sort}&order=${order}`;
+          if (status) {
+            url += `&status=${status}`;
+          }
+          if (url_filter) {
+            url += `&url=${encodeURIComponent(url_filter)}`;
+          }
+          if (title) {
+            url += `&title=${encodeURIComponent(title)}`;
+          }
+          if (description) {
+            url += `&description=${encodeURIComponent(description)}`;
+          }
+          if (websub) {
+            url += `&websub=${websub}`;
+          }
 
-              let nextUpdate = 'N/A';
-              if (feed.nextUpdate) {
-                const nextUpdateDate = new Date(feed.nextUpdate);
-                const now = new Date();
-                const diffMs = nextUpdateDate.getTime() - now.getTime();
+          const tableBody = document.getElementById("feeds-table-body");
+          tableBody.innerHTML =
+            '<tr><td colspan="6" class="loading-message">Loading feeds...</td></tr>';
 
-                if (diffMs > 0) {
-                  const diffMins = Math.floor(diffMs / 60000);
-                  const diffSecs = Math.floor((diffMs % 60000) / 1000);
-                  nextUpdate = `${nextUpdateDate.toLocaleTimeString()} (in ${diffMins}m ${diffSecs}s)`;
-                } else {
-                  nextUpdate = 'Due now';
-                }
+          fetch(url)
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+              }
+              return response.json();
+            })
+            .then((feeds) => {
+              if (feeds.length === 0) {
+                tableBody.innerHTML =
+                  '<tr><td colspan="6" class="empty-message">No feeds found</td></tr>';
+                return;
               }
 
-              return `
+              tableBody.innerHTML = feeds.map((feed) => {
+                const title = feed.title || "Untitled";
+                const status = feed.active
+                  ? '<span class="success-badge">Active</span>'
+                  : '<span class="warning-badge">Inactive</span>';
+                const errorBadge = feed.errorCount > 0
+                  ? `<span class="error-badge">Error (${feed.errorCount})</span>`
+                  : "";
+                const lastFetched = feed.lastFetched
+                  ? new Date(feed.lastFetched).toLocaleString()
+                  : "Never";
+
+                let nextUpdate = "N/A";
+                if (feed.nextUpdate) {
+                  const nextUpdateDate = new Date(feed.nextUpdate);
+                  const now = new Date();
+                  const diffMs = nextUpdateDate.getTime() - now.getTime();
+
+                  if (diffMs > 0) {
+                    const diffMins = Math.floor(diffMs / 60000);
+                    const diffSecs = Math.floor((diffMs % 60000) / 1000);
+                    nextUpdate =
+                      `${nextUpdateDate.toLocaleTimeString()} (in ${diffMins}m ${diffSecs}s)`;
+                  } else {
+                    nextUpdate = "Due now";
+                  }
+                }
+
+                return `
                 <tr data-id="${feed.id}">
                   <td>${title}</td>
-                  <td title="${feed.url}">${feed.url.substring(0, 30)}${feed.url.length > 30 ? '...' : ''}</td>
+                  <td title="${feed.url}">${feed.url.substring(0, 30)}${
+                  feed.url.length > 30 ? "..." : ""
+                }</td>
                   <td>${status} ${errorBadge}</td>
                   <td>${lastFetched}</td>
                   <td>${nextUpdate}</td>
@@ -317,143 +321,149 @@
                   </td>
                 </tr>
               `;
-            }).join('');
+              }).join("");
 
-            // Add event listeners to view buttons
-            document.querySelectorAll('.view-feed-btn').forEach(button => {
-              button.addEventListener('click', function () {
-                const feedId = this.getAttribute('data-id');
-                loadFeedDetails(feedId);
+              // Add event listeners to view buttons
+              document.querySelectorAll(".view-feed-btn").forEach((button) => {
+                button.addEventListener("click", function () {
+                  const feedId = this.getAttribute("data-id");
+                  loadFeedDetails(feedId);
+                });
               });
+            })
+            .catch((error) => {
+              console.error("Error loading feeds:", error);
+              tableBody.innerHTML =
+                '<tr><td colspan="6" class="error-message">Error loading feeds</td></tr>';
             });
-          })
-          .catch(error => {
-            console.error('Error loading feeds:', error);
-            tableBody.innerHTML = '<tr><td colspan="6" class="error-message">Error loading feeds</td></tr>';
-          });
-      }
-
-      function resetFilters() {
-        statusFilter.value = '';
-        urlFilter.value = '';
-        titleFilter.value = '';
-        descriptionFilter.value = '';
-        webSubFilter.value = '';
-        sortFilter.value = 'lastFetched';
-        orderFilter.value = 'desc';
-        loadFeeds();
-      }
-
-      function loadFeedDetails(feedId) {
-        currentFeedId = feedId;
-
-        fetch(`/api/admin/feeds/${feedId}`)
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-          })
-          .then(feed => {
-            // Update feed details
-            feedTitle.textContent = feed.title || 'Untitled';
-            feedUrl.textContent = feed.url;
-            feedStatus.textContent = feed.active ? 'Active' : 'Inactive';
-            feedStatus.className = feed.active ? 'success-badge' : 'warning-badge';
-
-            feedLastFetched.textContent = feed.lastFetched
-              ? new Date(feed.lastFetched).toLocaleString()
-              : 'Never';
-
-            feedLastUpdated.textContent = feed.lastUpdated
-              ? new Date(feed.lastUpdated).toLocaleString()
-              : 'Never';
-
-            if (feed.nextUpdate) {
-              const nextUpdateDate = new Date(feed.nextUpdate);
-              const now = new Date();
-              const diffMs = nextUpdateDate.getTime() - now.getTime();
-
-              if (diffMs > 0) {
-                const diffMins = Math.floor(diffMs / 60000);
-                const diffSecs = Math.floor((diffMs % 60000) / 1000);
-                feedNextUpdate.textContent = `${nextUpdateDate.toLocaleString()} (in ${diffMins}m ${diffSecs}s)`;
-              } else {
-                feedNextUpdate.textContent = 'Due now';
-              }
-            } else {
-              feedNextUpdate.textContent = 'N/A';
-            }
-
-            feedPollingInterval.textContent = `${feed.pollingInterval} minutes`;
-            feedWebSub.textContent = feed.supportsWebSub ? 'Yes' : 'No';
-            feedWebSubHub.textContent = feed.webSubHub || 'N/A';
-            feedErrorCount.textContent = feed.errorCount;
-
-            if (feed.lastError) {
-              feedLastError.textContent = feed.lastError;
-              feedLastError.className = 'error-badge';
-            } else {
-              feedLastError.textContent = 'None';
-              feedLastError.className = '';
-            }
-
-            // Update toggle button text
-            toggleActiveBtn.textContent = feed.active ? 'Deactivate Feed' : 'Activate Feed';
-
-            // Hide feed items container
-            feedItemsContainer.style.display = 'none';
-
-            // Show feed detail section
-            feedsSection.style.display = 'none';
-            feedDetailSection.style.display = 'block';
-          })
-          .catch(error => {
-            console.error('Error loading feed details:', error);
-            alert('Error loading feed details. Please try again.');
-          });
-      }
-
-      function showFeedsList() {
-        feedsSection.style.display = 'block';
-        feedDetailSection.style.display = 'none';
-        currentFeedId = null;
-      }
-
-      function toggleFeedItems() {
-        if (feedItemsContainer.style.display === 'none') {
-          // Show feed items
-          feedItemsContainer.style.display = 'block';
-          loadFeedItems(currentFeedId);
-        } else {
-          // Hide feed items
-          feedItemsContainer.style.display = 'none';
         }
-      }
 
-      function loadFeedItems(feedId) {
-        const tableBody = document.getElementById('feed-items-table-body');
-        tableBody.innerHTML = '<tr><td colspan="4" class="loading-message">Loading items...</td></tr>';
+        function resetFilters() {
+          statusFilter.value = "";
+          urlFilter.value = "";
+          titleFilter.value = "";
+          descriptionFilter.value = "";
+          webSubFilter.value = "";
+          sortFilter.value = "lastFetched";
+          orderFilter.value = "desc";
+          loadFeeds();
+        }
 
-        fetch(`/api/admin/feeds/${feedId}/items`)
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-          })
-          .then(items => {
-            if (items.length === 0) {
-              tableBody.innerHTML = '<tr><td colspan="4" class="empty-message">No items found</td></tr>';
-              return;
-            }
+        function loadFeedDetails(feedId) {
+          currentFeedId = feedId;
 
-            tableBody.innerHTML = items.map(item => {
-              const title = item.title || 'Untitled';
-              const published = new Date(item.published).toLocaleString();
-              const author = item.author || 'Unknown';
+          fetch(`/api/admin/feeds/${feedId}`)
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+              }
+              return response.json();
+            })
+            .then((feed) => {
+              // Update feed details
+              feedTitle.textContent = feed.title || "Untitled";
+              feedUrl.textContent = feed.url;
+              feedStatus.textContent = feed.active ? "Active" : "Inactive";
+              feedStatus.className = feed.active ? "success-badge" : "warning-badge";
 
-              return `
+              feedLastFetched.textContent = feed.lastFetched
+                ? new Date(feed.lastFetched).toLocaleString()
+                : "Never";
+
+              feedLastUpdated.textContent = feed.lastUpdated
+                ? new Date(feed.lastUpdated).toLocaleString()
+                : "Never";
+
+              if (feed.nextUpdate) {
+                const nextUpdateDate = new Date(feed.nextUpdate);
+                const now = new Date();
+                const diffMs = nextUpdateDate.getTime() - now.getTime();
+
+                if (diffMs > 0) {
+                  const diffMins = Math.floor(diffMs / 60000);
+                  const diffSecs = Math.floor((diffMs % 60000) / 1000);
+                  feedNextUpdate.textContent =
+                    `${nextUpdateDate.toLocaleString()} (in ${diffMins}m ${diffSecs}s)`;
+                } else {
+                  feedNextUpdate.textContent = "Due now";
+                }
+              } else {
+                feedNextUpdate.textContent = "N/A";
+              }
+
+              feedPollingInterval.textContent = `${feed.pollingInterval} minutes`;
+              feedWebSub.textContent = feed.supportsWebSub ? "Yes" : "No";
+              feedWebSubHub.textContent = feed.webSubHub || "N/A";
+              feedErrorCount.textContent = feed.errorCount;
+
+              if (feed.lastError) {
+                feedLastError.textContent = feed.lastError;
+                feedLastError.className = "error-badge";
+              } else {
+                feedLastError.textContent = "None";
+                feedLastError.className = "";
+              }
+
+              // Update toggle button text
+              toggleActiveBtn.textContent = feed.active
+                ? "Deactivate Feed"
+                : "Activate Feed";
+
+              // Hide feed items container
+              feedItemsContainer.style.display = "none";
+
+              // Show feed detail section
+              feedsSection.style.display = "none";
+              feedDetailSection.style.display = "block";
+            })
+            .catch((error) => {
+              console.error("Error loading feed details:", error);
+              alert("Error loading feed details. Please try again.");
+            });
+        }
+
+        function showFeedsList() {
+          feedsSection.style.display = "block";
+          feedDetailSection.style.display = "none";
+          currentFeedId = null;
+        }
+
+        function toggleFeedItems() {
+          if (feedItemsContainer.style.display === "none") {
+            // Show feed items
+            feedItemsContainer.style.display = "block";
+            loadFeedItems(currentFeedId);
+          } else {
+            // Hide feed items
+            feedItemsContainer.style.display = "none";
+          }
+        }
+
+        function loadFeedItems(feedId) {
+          const tableBody = document.getElementById("feed-items-table-body");
+          tableBody.innerHTML =
+            '<tr><td colspan="4" class="loading-message">Loading items...</td></tr>';
+
+          fetch(`/api/admin/feeds/${feedId}/items`)
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+              }
+              return response.json();
+            })
+            .then((items) => {
+              if (items.length === 0) {
+                tableBody.innerHTML =
+                  '<tr><td colspan="4" class="empty-message">No items found</td></tr>';
+                return;
+              }
+
+              tableBody.innerHTML = items.map((item) => {
+                const title = item.title || "Untitled";
+                const published = new Date(item.published).toLocaleString();
+                const author = item.author || "Unknown";
+
+                return `
                 <tr data-id="${item.id}">
                   <td>${title}</td>
                   <td>${published}</td>
@@ -463,71 +473,71 @@
                   </td>
                 </tr>
               `;
-            }).join('');
-          })
-          .catch(error => {
-            console.error('Error loading feed items:', error);
-            tableBody.innerHTML = '<tr><td colspan="4" class="error-message">Error loading items</td></tr>';
-          });
-      }
+              }).join("");
+            })
+            .catch((error) => {
+              console.error("Error loading feed items:", error);
+              tableBody.innerHTML =
+                '<tr><td colspan="4" class="error-message">Error loading items</td></tr>';
+            });
+        }
 
-      function toggleFeedActive() {
-        if (!currentFeedId) return;
+        function toggleFeedActive() {
+          if (!currentFeedId) return;
 
-        fetch(`/api/admin/feeds/${currentFeedId}/toggle`, {
-          method: 'POST'
-        })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
+          fetch(`/api/admin/feeds/${currentFeedId}/toggle`, {
+            method: "POST",
           })
-          .then(result => {
-            if (result.success) {
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+              }
+              return response.json();
+            })
+            .then((result) => {
+              if (result.success) {
+                // Reload feed details
+                loadFeedDetails(currentFeedId);
+              } else {
+                alert("Failed to toggle feed status.");
+              }
+            })
+            .catch((error) => {
+              console.error("Error toggling feed status:", error);
+              alert("Error toggling feed status. Please try again.");
+            });
+        }
+
+        function forceFeedUpdate() {
+          if (!currentFeedId) return;
+
+          forceUpdateBtn.textContent = "Updating...";
+          forceUpdateBtn.disabled = true;
+
+          fetch(`/api/admin/feeds/${currentFeedId}/update`, {
+            method: "POST",
+          })
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+              }
+              return response.json();
+            })
+            .then((result) => {
+              alert(`Update result: ${result.message}`);
               // Reload feed details
               loadFeedDetails(currentFeedId);
-            } else {
-              alert('Failed to toggle feed status.');
-            }
-          })
-          .catch(error => {
-            console.error('Error toggling feed status:', error);
-            alert('Error toggling feed status. Please try again.');
-          });
-      }
-
-      function forceFeedUpdate() {
-        if (!currentFeedId) return;
-
-        forceUpdateBtn.textContent = 'Updating...';
-        forceUpdateBtn.disabled = true;
-
-        fetch(`/api/admin/feeds/${currentFeedId}/update`, {
-          method: 'POST'
-        })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-          })
-          .then(result => {
-            alert(`Update result: ${result.message}`);
-            // Reload feed details
-            loadFeedDetails(currentFeedId);
-          })
-          .catch(error => {
-            console.error('Error updating feed:', error);
-            alert('Error updating feed. Please try again.');
-          })
-          .finally(() => {
-            forceUpdateBtn.textContent = 'Force Update';
-            forceUpdateBtn.disabled = false;
-          });
-      }
-    });
-  </script>
-</body>
-
+            })
+            .catch((error) => {
+              console.error("Error updating feed:", error);
+              alert("Error updating feed. Please try again.");
+            })
+            .finally(() => {
+              forceUpdateBtn.textContent = "Force Update";
+              forceUpdateBtn.disabled = false;
+            });
+        }
+      });
+    </script>
+  </body>
 </html>

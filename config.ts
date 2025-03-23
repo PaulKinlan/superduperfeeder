@@ -8,7 +8,7 @@ export const config = {
 
   // URLs
   baseUrl: "https://superduperfeeder.deno.dev",
-  hubUrl: "https://superduperfeeder.deno.dev",
+  hubUrl: "https://superduperfeeder-hub.deno.dev",
 
   // Server configuration
   port: parseInt(Deno.env.get("PORT") || "8000"),
@@ -26,8 +26,7 @@ export const config = {
   admin: {
     username: Deno.env.get("ADMIN_USERNAME") || "admin",
     // In production, this should be set via environment variable
-    passwordHash:
-      Deno.env.get("ADMIN_PASSWORD_HASH") ||
+    passwordHash: Deno.env.get("ADMIN_PASSWORD_HASH") ||
       // Default hash for password "changeme" - DO NOT USE IN PRODUCTION
       "$2a$10$zYBQgLj.1qfUDBgJqCq80eJ1vNjFvFYFDZNgRqPc1JLRsV8qBRpHK",
   },

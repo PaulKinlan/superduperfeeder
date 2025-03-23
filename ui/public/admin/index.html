@@ -1,217 +1,224 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Super Duper Feeder</title>
+    <link rel="stylesheet" href="/ui/styles.css">
+    <link rel="stylesheet" href="/admin/styles.css">
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard - Super Duper Feeder</title>
-  <link rel="stylesheet" href="/ui/styles.css">
-  <link rel="stylesheet" href="/admin/styles.css">
-</head>
+  <body>
+    <header>
+      <h1>Super Duper Feeder - Admin</h1>
+      <p>Administration Dashboard</p>
+      <nav>
+        <a href="/ui/index.html">Home</a>
+        <a href="/admin/index.html" class="active">Dashboard</a>
+        <a href="/admin/feeds.html">Feeds</a>
+        <a href="/admin/items.html">Feed Items</a>
+        <a href="/admin/subscriptions.html">Subscriptions</a>
+      </nav>
+    </header>
 
-<body>
-  <header>
-    <h1>Super Duper Feeder - Admin</h1>
-    <p>Administration Dashboard</p>
-    <nav>
-      <a href="/ui/index.html">Home</a>
-      <a href="/admin/index.html" class="active">Dashboard</a>
-      <a href="/admin/feeds.html">Feeds</a>
-      <a href="/admin/items.html">Feed Items</a>
-      <a href="/admin/subscriptions.html">Subscriptions</a>
-    </nav>
-  </header>
+    <main>
+      <section id="dashboard">
+        <h2>Dashboard</h2>
+        <p>Overview of your Super Duper Feeder instance.</p>
 
-  <main>
-    <section id="dashboard">
-      <h2>Dashboard</h2>
-      <p>Overview of your Super Duper Feeder instance.</p>
-
-      <div class="dashboard-grid">
-        <div class="dashboard-card" id="feeds-stats">
-          <h3>Feeds</h3>
-          <div class="stats-container">
-            <div class="stat-item">
-              <div class="stat-value" id="total-feeds">-</div>
-              <div class="stat-label">Total</div>
+        <div class="dashboard-grid">
+          <div class="dashboard-card" id="feeds-stats">
+            <h3>Feeds</h3>
+            <div class="stats-container">
+              <div class="stat-item">
+                <div class="stat-value" id="total-feeds">-</div>
+                <div class="stat-label">Total</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value" id="active-feeds">-</div>
+                <div class="stat-label">Active</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value" id="websub-feeds">-</div>
+                <div class="stat-label">WebSub</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value" id="error-feeds">-</div>
+                <div class="stat-label">With Errors</div>
+              </div>
             </div>
-            <div class="stat-item">
-              <div class="stat-value" id="active-feeds">-</div>
-              <div class="stat-label">Active</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-value" id="websub-feeds">-</div>
-              <div class="stat-label">WebSub</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-value" id="error-feeds">-</div>
-              <div class="stat-label">With Errors</div>
-            </div>
+            <a href="/admin/feeds.html" class="card-link">View All Feeds</a>
           </div>
-          <a href="/admin/feeds.html" class="card-link">View All Feeds</a>
-        </div>
 
-        <div class="dashboard-card" id="items-stats">
-          <h3>Feed Items</h3>
-          <div class="stats-container">
-            <div class="stat-item">
-              <div class="stat-value" id="recent-items">-</div>
-              <div class="stat-label">Recent Items</div>
+          <div class="dashboard-card" id="items-stats">
+            <h3>Feed Items</h3>
+            <div class="stats-container">
+              <div class="stat-item">
+                <div class="stat-value" id="recent-items">-</div>
+                <div class="stat-label">Recent Items</div>
+              </div>
             </div>
+            <a href="/admin/items.html" class="card-link">View All Items</a>
           </div>
-          <a href="/admin/items.html" class="card-link">View All Items</a>
-        </div>
 
-        <div class="dashboard-card" id="subscriptions-stats">
-          <h3>Subscriptions</h3>
-          <div class="stats-container">
-            <div class="stat-item">
-              <div class="stat-value" id="total-subscriptions">-</div>
-              <div class="stat-label">Total</div>
+          <div class="dashboard-card" id="subscriptions-stats">
+            <h3>Subscriptions</h3>
+            <div class="stats-container">
+              <div class="stat-item">
+                <div class="stat-value" id="total-subscriptions">-</div>
+                <div class="stat-label">Total</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value" id="expired-subscriptions">-</div>
+                <div class="stat-label">Expired</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value" id="renewal-subscriptions">-</div>
+                <div class="stat-label">Need Renewal</div>
+              </div>
             </div>
-            <div class="stat-item">
-              <div class="stat-value" id="expired-subscriptions">-</div>
-              <div class="stat-label">Expired</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-value" id="renewal-subscriptions">-</div>
-              <div class="stat-label">Need Renewal</div>
-            </div>
+            <a href="/admin/subscriptions.html" class="card-link">View All Subscriptions</a>
           </div>
-          <a href="/admin/subscriptions.html" class="card-link">View All Subscriptions</a>
-        </div>
 
-        <div class="dashboard-card" id="upcoming-updates">
-          <h3>Upcoming Feed Updates</h3>
-          <div class="table-container">
-            <table>
-              <thead>
-                <tr>
-                  <th>Feed</th>
-                  <th>Next Update</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody id="upcoming-updates-table">
-                <tr>
-                  <td colspan="3" class="loading-message">Loading...</td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="dashboard-card" id="upcoming-updates">
+            <h3>Upcoming Feed Updates</h3>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Feed</th>
+                    <th>Next Update</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="upcoming-updates-table">
+                  <tr>
+                    <td colspan="3" class="loading-message">Loading...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <a href="/admin/feeds.html" class="card-link">View All Feeds</a>
           </div>
-          <a href="/admin/feeds.html" class="card-link">View All Feeds</a>
         </div>
-      </div>
-    </section>
-  </main>
+      </section>
+    </main>
 
-  <footer>
-    <p>Super Duper Feeder - A WebSub/PubSubHubbub service</p>
-  </footer>
+    <footer>
+      <p>Super Duper Feeder - A WebSub/PubSubHubbub service</p>
+    </footer>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // Fetch dashboard stats
-      fetchStats();
-
-      // Fetch upcoming feed updates
-      fetchUpcomingUpdates();
-
-      // Refresh data every 60 seconds
-      setInterval(() => {
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Fetch dashboard stats
         fetchStats();
+
+        // Fetch upcoming feed updates
         fetchUpcomingUpdates();
-      }, 60000);
-    });
 
-    async function fetchStats() {
-      try {
-        const response = await fetch('/api/admin/stats');
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+        // Refresh data every 60 seconds
+        setInterval(() => {
+          fetchStats();
+          fetchUpcomingUpdates();
+        }, 60000);
+      });
+
+      async function fetchStats() {
+        try {
+          const response = await fetch("/api/admin/stats");
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const data = await response.json();
+
+          // Update feed stats
+          document.getElementById("total-feeds").textContent = data.feeds.total;
+          document.getElementById("active-feeds").textContent = data.feeds.active;
+          document.getElementById("websub-feeds").textContent = data.feeds.webSub;
+          document.getElementById("error-feeds").textContent = data.feeds.withErrors;
+
+          // Update item stats
+          document.getElementById("recent-items").textContent = data.items.recentCount;
+
+          // Update subscription stats
+          document.getElementById("total-subscriptions").textContent =
+            data.subscriptions.total;
+          document.getElementById("expired-subscriptions").textContent =
+            data.subscriptions.expired;
+          document.getElementById("renewal-subscriptions").textContent =
+            data.subscriptions.needingRenewal;
+        } catch (error) {
+          console.error("Error fetching stats:", error);
         }
-
-        const data = await response.json();
-
-        // Update feed stats
-        document.getElementById('total-feeds').textContent = data.feeds.total;
-        document.getElementById('active-feeds').textContent = data.feeds.active;
-        document.getElementById('websub-feeds').textContent = data.feeds.webSub;
-        document.getElementById('error-feeds').textContent = data.feeds.withErrors;
-
-        // Update item stats
-        document.getElementById('recent-items').textContent = data.items.recentCount;
-
-        // Update subscription stats
-        document.getElementById('total-subscriptions').textContent = data.subscriptions.total;
-        document.getElementById('expired-subscriptions').textContent = data.subscriptions.expired;
-        document.getElementById('renewal-subscriptions').textContent = data.subscriptions.needingRenewal;
-      } catch (error) {
-        console.error('Error fetching stats:', error);
       }
-    }
 
-    async function fetchUpcomingUpdates() {
-      try {
-        const response = await fetch('/api/admin/feeds?status=active');
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+      async function fetchUpcomingUpdates() {
+        try {
+          const response = await fetch("/api/admin/feeds?status=active");
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
 
-        const feeds = await response.json();
+          const feeds = await response.json();
 
-        // Filter feeds that need updates and sort by next update time
-        const feedsToUpdate = feeds
-          .filter(feed => feed.nextUpdate && !feed.supportsWebSub)
-          .sort((a, b) => {
-            const timeA = a.nextUpdateIn || Infinity;
-            const timeB = b.nextUpdateIn || Infinity;
-            return timeA - timeB;
-          })
-          .slice(0, 5); // Show only the next 5 feeds to update
+          // Filter feeds that need updates and sort by next update time
+          const feedsToUpdate = feeds
+            .filter((feed) => feed.nextUpdate && !feed.supportsWebSub)
+            .sort((a, b) => {
+              const timeA = a.nextUpdateIn || Infinity;
+              const timeB = b.nextUpdateIn || Infinity;
+              return timeA - timeB;
+            })
+            .slice(0, 5); // Show only the next 5 feeds to update
 
-        const tableBody = document.getElementById('upcoming-updates-table');
+          const tableBody = document.getElementById("upcoming-updates-table");
 
-        if (feedsToUpdate.length === 0) {
-          tableBody.innerHTML = `
+          if (feedsToUpdate.length === 0) {
+            tableBody.innerHTML = `
             <tr>
               <td colspan="3" class="empty-message">No upcoming updates</td>
             </tr>
           `;
-          return;
-        }
-
-        tableBody.innerHTML = feedsToUpdate.map(feed => {
-          const nextUpdateTime = feed.nextUpdate ? new Date(feed.nextUpdate) : null;
-          const formattedTime = nextUpdateTime ? nextUpdateTime.toLocaleTimeString() : 'N/A';
-
-          // Calculate time remaining
-          let timeRemaining = 'N/A';
-          if (feed.nextUpdateIn !== null) {
-            const minutes = Math.floor(feed.nextUpdateIn / 60000);
-            const seconds = Math.floor((feed.nextUpdateIn % 60000) / 1000);
-            timeRemaining = `${minutes}m ${seconds}s`;
+            return;
           }
 
-          return `
+          tableBody.innerHTML = feedsToUpdate.map((feed) => {
+            const nextUpdateTime = feed.nextUpdate ? new Date(feed.nextUpdate) : null;
+            const formattedTime = nextUpdateTime
+              ? nextUpdateTime.toLocaleTimeString()
+              : "N/A";
+
+            // Calculate time remaining
+            let timeRemaining = "N/A";
+            if (feed.nextUpdateIn !== null) {
+              const minutes = Math.floor(feed.nextUpdateIn / 60000);
+              const seconds = Math.floor((feed.nextUpdateIn % 60000) / 1000);
+              timeRemaining = `${minutes}m ${seconds}s`;
+            }
+
+            return `
             <tr>
               <td title="${feed.url}">${feed.title || feed.url}</td>
               <td>${formattedTime} (in ${timeRemaining})</td>
-              <td>${feed.errorCount > 0 ? `<span class="error-badge">Error (${feed.errorCount})</span>` : '<span class="success-badge">OK</span>'}</td>
+              <td>${
+              feed.errorCount > 0
+                ? `<span class="error-badge">Error (${feed.errorCount})</span>`
+                : '<span class="success-badge">OK</span>'
+            }</td>
             </tr>
           `;
-        }).join('');
-      } catch (error) {
-        console.error('Error fetching upcoming updates:', error);
-        const tableBody = document.getElementById('upcoming-updates-table');
-        tableBody.innerHTML = `
+          }).join("");
+        } catch (error) {
+          console.error("Error fetching upcoming updates:", error);
+          const tableBody = document.getElementById("upcoming-updates-table");
+          tableBody.innerHTML = `
           <tr>
             <td colspan="3" class="error-message">Error loading data</td>
           </tr>
         `;
+        }
       }
-    }
-  </script>
-</body>
-
+    </script>
+  </body>
 </html>

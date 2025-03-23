@@ -1,12 +1,8 @@
 // Integration test for the polling service
 
 import { assertEquals, assertExists } from "@std/assert";
-import { MockFeedServer, generateMockRssFeed } from "../mocks/mock_feed.ts";
-import {
-  getTestDatabase,
-  resetTestDatabase,
-  closeTestDatabase,
-} from "../utils/test_database.ts";
+import { generateMockRssFeed, MockFeedServer } from "../mocks/mock_feed.ts";
+import { closeTestDatabase, getTestDatabase, resetTestDatabase } from "../utils/test_database.ts";
 import { PollingService } from "../../services/polling.ts";
 
 // Import test setup to configure the environment

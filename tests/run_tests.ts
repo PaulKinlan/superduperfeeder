@@ -22,7 +22,6 @@ const testFiles = [
 
   // Integration tests
   "./integration/polling_test.ts",
-
   // Add more test files here as they are created
 ];
 

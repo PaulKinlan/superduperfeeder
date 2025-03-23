@@ -2,17 +2,23 @@
 
 A real-time RSS feed subscription service with WebSub/PubSubHubbub and WebHook support.
 
-The Spec compliant WebSub/PubSubHubbub service allows clients to subscribe to RSS feeds and get notified when new content is available in real-time. The service also supports polling for feeds that don't support WebSub.
+The Spec compliant WebSub/PubSubHubbub service allows clients to subscribe to RSS feeds and get
+notified when new content is available in real-time. The service also supports polling for feeds
+that don't support WebSub.
 
-There is also a developer friendly API for real-time updates to RSS feeds delivered directly to a developer defined endpoint.
+There is also a developer friendly API for real-time updates to RSS feeds delivered directly to a
+developer defined endpoint.
 
 ## WebSub Concepts
 
-WebSub (formerly PubSubHubbub) is a protocol that enables real-time notifications for content updates. It involves three main components:
+WebSub (formerly PubSubHubbub) is a protocol that enables real-time notifications for content
+updates. It involves three main components:
 
 - **Publishers**: Content creators who notify the hub when they update their content
-- **Hub**: A server (like Super Duper Feeder) that receives update notifications from publishers and forwards them to subscribers
-- **Subscribers**: Services or applications that want to receive real-time updates about content changes
+- **Hub**: A server (like Super Duper Feeder) that receives update notifications from publishers and
+  forwards them to subscribers
+- **Subscribers**: Services or applications that want to receive real-time updates about content
+  changes
 
 The flow works as follows:
 
@@ -104,7 +110,8 @@ The documentation is available at http://localhost:8000/docs when running locall
 
 ### Deployment
 
-The service is deployed to Deno Deploy at: [superduperfeeder.deno.dev](https://superduperfeeder.deno.dev)
+The service is deployed to Deno Deploy at:
+[superduperfeeder.deno.dev](https://superduperfeeder.deno.dev)
 
 ## Project Structure
 
@@ -153,7 +160,8 @@ The service is deployed to Deno Deploy at: [superduperfeeder.deno.dev](https://s
 
 ## API Documentation
 
-The service provides a comprehensive API for interacting with the WebSub hub and managing feed subscriptions:
+The service provides a comprehensive API for interacting with the WebSub hub and managing feed
+subscriptions:
 
 ### WebSub Hub API
 
@@ -172,13 +180,15 @@ The service provides a comprehensive API for interacting with the WebSub hub and
 - Automatic verification of subscription requests
 - Token-based verification for callbacks
 
-See the [documentation](https://superduperfeeder.deno.dev/docs) for detailed API usage, including request/response formats, error handling, and best practices.
+See the [documentation](https://superduperfeeder.deno.dev/docs) for detailed API usage, including
+request/response formats, error handling, and best practices.
 
 ## Deno Deploy Compatibility
 
 ### Password Hashing
 
-This project uses the Web Crypto API for password hashing instead of bcrypt because bcrypt is not compatible with Deno Deploy. The implementation in `utils/crypto.ts` provides:
+This project uses the Web Crypto API for password hashing instead of bcrypt because bcrypt is not
+compatible with Deno Deploy. The implementation in `utils/crypto.ts` provides:
 
 - Secure password hashing using PBKDF2 with SHA-256
 - AES-GCM encryption for password verification
@@ -186,7 +196,8 @@ This project uses the Web Crypto API for password hashing instead of bcrypt beca
 - Automatic salt generation for each password
 - Compatibility with the existing user authentication system
 
-The implementation has been thoroughly tested and provides the same level of security as bcrypt while being compatible with Deno Deploy's runtime environment.
+The implementation has been thoroughly tested and provides the same level of security as bcrypt
+while being compatible with Deno Deploy's runtime environment.
 
 ## License
 

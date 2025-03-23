@@ -1,11 +1,7 @@
 // Unit tests for the Feed model
 
 import { assertEquals, assertExists, assertNotEquals } from "@std/assert";
-import {
-  getTestDatabase,
-  resetTestDatabase,
-  closeTestDatabase,
-} from "../utils/test_database.ts";
+import { closeTestDatabase, getTestDatabase, resetTestDatabase } from "../utils/test_database.ts";
 
 // Import test setup to configure the environment
 import "../test_setup.ts";
@@ -275,7 +271,7 @@ Deno.test({
         [
           "https://example.com/feed1.xml",
           "https://example.com/feed3.xml",
-        ].sort()
+        ].sort(),
       );
     } finally {
       // Close the database connection
@@ -339,7 +335,7 @@ Deno.test({
       // Get item by feed and guid
       const retrievedItem = await db.feeds.getItemByFeedAndGuid(
         feed.id,
-        "item1"
+        "item1",
       );
       assertExists(retrievedItem);
       if (retrievedItem) {

@@ -1,6 +1,7 @@
 # SuperDuperFeeder Test Harness
 
-This directory contains the test harness for SuperDuperFeeder, allowing you to run tests locally to verify the functionality of the application.
+This directory contains the test harness for SuperDuperFeeder, allowing you to run tests locally to
+verify the functionality of the application.
 
 ## Directory Structure
 
@@ -13,7 +14,8 @@ This directory contains the test harness for SuperDuperFeeder, allowing you to r
 
 ## Configuration
 
-The test harness uses a separate configuration defined in `test_config.ts`. This configuration overrides the main application configuration with test-specific settings, such as:
+The test harness uses a separate configuration defined in `test_config.ts`. This configuration
+overrides the main application configuration with test-specific settings, such as:
 
 - Using a different port (8001 instead of 8000)
 - Using an in-memory KV database
@@ -54,7 +56,8 @@ The built-in test runner provides more detailed output and can be useful for deb
 
 ### Unit Tests
 
-Unit tests focus on testing individual components in isolation. They are located in the `unit/` directory. Example:
+Unit tests focus on testing individual components in isolation. They are located in the `unit/`
+directory. Example:
 
 ```typescript
 // tests/unit/feed_model_test.ts
@@ -68,7 +71,8 @@ Deno.test({
 
 ### Integration Tests
 
-Integration tests focus on testing multiple components working together. They are located in the `integration/` directory. Example:
+Integration tests focus on testing multiple components working together. They are located in the
+`integration/` directory. Example:
 
 ```typescript
 // tests/integration/polling_test.ts
@@ -84,16 +88,23 @@ Deno.test({
 
 ### Mocks
 
-The `mocks/` directory contains mock implementations for testing. For example, `mock_feed.ts` provides utilities for generating mock RSS and Atom feeds, as well as a mock HTTP server for serving feeds.
+The `mocks/` directory contains mock implementations for testing. For example, `mock_feed.ts`
+provides utilities for generating mock RSS and Atom feeds, as well as a mock HTTP server for serving
+feeds.
 
 ### Test Database
 
-The test harness uses a separate database utility defined in `utils/test_database.ts`. This utility provides functions for initializing and resetting the test database.
+The test harness uses a separate database utility defined in `utils/test_database.ts`. This utility
+provides functions for initializing and resetting the test database.
 
 ## Best Practices
 
-1. **Reset the database before each test**: Use `resetTestDatabase()` at the beginning of each test to ensure a clean state.
-2. **Use descriptive test names**: Each test should have a clear, descriptive name that indicates what it's testing.
-3. **Clean up resources**: Use `try/finally` blocks to ensure resources like mock servers are cleaned up after tests.
-4. **Use assertions**: Use the assertion functions from `https://deno.land/std/testing/asserts.ts` to verify test results.
+1. **Reset the database before each test**: Use `resetTestDatabase()` at the beginning of each test
+   to ensure a clean state.
+2. **Use descriptive test names**: Each test should have a clear, descriptive name that indicates
+   what it's testing.
+3. **Clean up resources**: Use `try/finally` blocks to ensure resources like mock servers are
+   cleaned up after tests.
+4. **Use assertions**: Use the assertion functions from `https://deno.land/std/testing/asserts.ts`
+   to verify test results.
 5. **Test edge cases**: Include tests for edge cases and error conditions, not just the happy path.

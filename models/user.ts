@@ -24,7 +24,7 @@ export class UserStore {
   async create(
     username: string,
     password: string,
-    isAdmin = false
+    isAdmin = false,
   ): Promise<User> {
     // Check if username already exists
     const existing = await this.getByUsername(username);

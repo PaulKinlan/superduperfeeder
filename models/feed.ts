@@ -137,7 +137,7 @@ export class FeedStore {
       if (feed.lastErrorTime) {
         const nextPollAfterError = new Date(feed.lastErrorTime);
         nextPollAfterError.setMinutes(
-          nextPollAfterError.getMinutes() + feed.pollingInterval
+          nextPollAfterError.getMinutes() + feed.pollingInterval,
         );
 
         // Only poll if the error cooldown period has passed
@@ -150,7 +150,7 @@ export class FeedStore {
       if (feed.lastFetched) {
         const nextPollTime = new Date(feed.lastFetched);
         nextPollTime.setMinutes(
-          nextPollTime.getMinutes() + feed.pollingInterval
+          nextPollTime.getMinutes() + feed.pollingInterval,
         );
 
         return now >= nextPollTime;
@@ -190,7 +190,7 @@ export class FeedStore {
   // Get a feed item by feed ID and GUID
   async getItemByFeedAndGuid(
     feedId: string,
-    guid: string
+    guid: string,
   ): Promise<FeedItem | null> {
     const idResult = await this.kv.get<string>([
       "feed_items_by_feed_guid",
@@ -226,8 +226,7 @@ export class FeedStore {
 
     // Sort by published date, newest first
     return items.sort(
-      (a, b) =>
-        new Date(b.published).getTime() - new Date(a.published).getTime()
+      (a, b) => new Date(b.published).getTime() - new Date(a.published).getTime(),
     );
   }
 
@@ -247,8 +246,7 @@ export class FeedStore {
     // Sort by published date, newest first
     return items
       .sort(
-        (a, b) =>
-          new Date(b.published).getTime() - new Date(a.published).getTime()
+        (a, b) => new Date(b.published).getTime() - new Date(a.published).getTime(),
       )
       .slice(0, limit);
   }

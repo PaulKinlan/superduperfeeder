@@ -1,6 +1,6 @@
 // Tests for the Web Crypto API password hashing implementation
 
-import { hash, compare } from "../../utils/crypto.ts";
+import { compare, hash } from "../../utils/crypto.ts";
 import { assertEquals } from "@std/assert";
 
 Deno.test("Crypto hash and compare - successful match", async () => {
@@ -49,8 +49,7 @@ Deno.test("Crypto hash - different salts for same password", async () => {
 Deno.test("Crypto compare - rejects old bcrypt format", async () => {
   const password = "test-password";
   // This is a fake bcrypt hash format
-  const oldHash =
-    "$2a$10$zYBQgLj.1qfUDBgJqCq80eJ1vNjFvFYFDZNgRqPc1JLRsV8qBRpHK";
+  const oldHash = "$2a$10$zYBQgLj.1qfUDBgJqCq80eJ1vNjFvFYFDZNgRqPc1JLRsV8qBRpHK";
 
   // Verify the compare function rejects the old format
   const isMatch = await compare(password, oldHash);

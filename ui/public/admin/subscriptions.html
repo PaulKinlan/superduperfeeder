@@ -1,202 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscriptions - Super Duper Feeder</title>
+    <link rel="stylesheet" href="/ui/styles.css">
+    <link rel="stylesheet" href="/admin/styles.css">
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Subscriptions - Super Duper Feeder</title>
-  <link rel="stylesheet" href="/ui/styles.css">
-  <link rel="stylesheet" href="/admin/styles.css">
-</head>
+  <body>
+    <header>
+      <h1>Super Duper Feeder - Admin</h1>
+      <p>Administration Dashboard</p>
+      <nav>
+        <a href="/ui/index.html">Home</a>
+        <a href="/admin/index.html">Dashboard</a>
+        <a href="/admin/feeds.html">Feeds</a>
+        <a href="/admin/items.html">Feed Items</a>
+        <a href="/admin/subscriptions.html" class="active">Subscriptions</a>
+      </nav>
+    </header>
 
-<body>
-  <header>
-    <h1>Super Duper Feeder - Admin</h1>
-    <p>Administration Dashboard</p>
-    <nav>
-      <a href="/ui/index.html">Home</a>
-      <a href="/admin/index.html">Dashboard</a>
-      <a href="/admin/feeds.html">Feeds</a>
-      <a href="/admin/items.html">Feed Items</a>
-      <a href="/admin/subscriptions.html" class="active">Subscriptions</a>
-    </nav>
-  </header>
+    <main>
+      <section id="subscriptions">
+        <h2>External Subscriptions</h2>
+        <p>View all external WebSub subscriptions.</p>
 
-  <main>
-    <section id="subscriptions">
-      <h2>External Subscriptions</h2>
-      <p>View all external WebSub subscriptions.</p>
+        <div class="table-container">
+          <table id="subscriptions-table">
+            <thead>
+              <tr>
+                <th>Topic</th>
+                <th>Hub</th>
+                <th>Status</th>
+                <th>Expires</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="subscriptions-table-body">
+              <tr>
+                <td colspan="5" class="loading-message">Loading subscriptions...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
 
-      <div class="table-container">
-        <table id="subscriptions-table">
-          <thead>
-            <tr>
-              <th>Topic</th>
-              <th>Hub</th>
-              <th>Status</th>
-              <th>Expires</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="subscriptions-table-body">
-            <tr>
-              <td colspan="5" class="loading-message">Loading subscriptions...</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
+      <section id="subscription-detail" style="display: none">
+        <h2>Subscription Details</h2>
+        <div class="feed-details">
+          <h3 id="subscription-topic">Subscription Topic</h3>
+          <div class="feed-details-grid">
+            <div class="feed-detail-item">
+              <div class="feed-detail-label">Hub</div>
+              <div id="subscription-hub"></div>
+            </div>
+            <div class="feed-detail-item">
+              <div class="feed-detail-label">Callback Path</div>
+              <div id="subscription-callback"></div>
+            </div>
+            <div class="feed-detail-item">
+              <div class="feed-detail-label">Created</div>
+              <div id="subscription-created"></div>
+            </div>
+            <div class="feed-detail-item">
+              <div class="feed-detail-label">Expires</div>
+              <div id="subscription-expires"></div>
+            </div>
+            <div class="feed-detail-item">
+              <div class="feed-detail-label">Lease Seconds</div>
+              <div id="subscription-lease"></div>
+            </div>
+            <div class="feed-detail-item">
+              <div class="feed-detail-label">Verified</div>
+              <div id="subscription-verified"></div>
+            </div>
+            <div class="feed-detail-item">
+              <div class="feed-detail-label">Last Renewed</div>
+              <div id="subscription-renewed"></div>
+            </div>
+            <div class="feed-detail-item">
+              <div class="feed-detail-label">Using Fallback</div>
+              <div id="subscription-fallback"></div>
+            </div>
+            <div class="feed-detail-item">
+              <div class="feed-detail-label">Error Count</div>
+              <div id="subscription-error-count"></div>
+            </div>
+            <div class="feed-detail-item">
+              <div class="feed-detail-label">Last Error</div>
+              <div id="subscription-last-error"></div>
+            </div>
+            <div class="feed-detail-item">
+              <div class="feed-detail-label">User Callback URL</div>
+              <div id="subscription-user-callback"></div>
+            </div>
+          </div>
 
-    <section id="subscription-detail" style="display: none;">
-      <h2>Subscription Details</h2>
-      <div class="feed-details">
-        <h3 id="subscription-topic">Subscription Topic</h3>
-        <div class="feed-details-grid">
-          <div class="feed-detail-item">
-            <div class="feed-detail-label">Hub</div>
-            <div id="subscription-hub"></div>
-          </div>
-          <div class="feed-detail-item">
-            <div class="feed-detail-label">Callback Path</div>
-            <div id="subscription-callback"></div>
-          </div>
-          <div class="feed-detail-item">
-            <div class="feed-detail-label">Created</div>
-            <div id="subscription-created"></div>
-          </div>
-          <div class="feed-detail-item">
-            <div class="feed-detail-label">Expires</div>
-            <div id="subscription-expires"></div>
-          </div>
-          <div class="feed-detail-item">
-            <div class="feed-detail-label">Lease Seconds</div>
-            <div id="subscription-lease"></div>
-          </div>
-          <div class="feed-detail-item">
-            <div class="feed-detail-label">Verified</div>
-            <div id="subscription-verified"></div>
-          </div>
-          <div class="feed-detail-item">
-            <div class="feed-detail-label">Last Renewed</div>
-            <div id="subscription-renewed"></div>
-          </div>
-          <div class="feed-detail-item">
-            <div class="feed-detail-label">Using Fallback</div>
-            <div id="subscription-fallback"></div>
-          </div>
-          <div class="feed-detail-item">
-            <div class="feed-detail-label">Error Count</div>
-            <div id="subscription-error-count"></div>
-          </div>
-          <div class="feed-detail-item">
-            <div class="feed-detail-label">Last Error</div>
-            <div id="subscription-last-error"></div>
-          </div>
-          <div class="feed-detail-item">
-            <div class="feed-detail-label">User Callback URL</div>
-            <div id="subscription-user-callback"></div>
+          <div class="feed-actions">
+            <button id="back-to-subscriptions" class="action-button">
+              Back to Subscriptions List
+            </button>
           </div>
         </div>
+      </section>
+    </main>
 
-        <div class="feed-actions">
-          <button id="back-to-subscriptions" class="action-button">Back to Subscriptions List</button>
-        </div>
-      </div>
-    </section>
-  </main>
+    <footer>
+      <p>Super Duper Feeder - A WebSub/PubSubHubbub service</p>
+    </footer>
 
-  <footer>
-    <p>Super Duper Feeder - A WebSub/PubSubHubbub service</p>
-  </footer>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Elements
+        const subscriptionsSection = document.getElementById("subscriptions");
+        const subscriptionDetailSection = document.getElementById("subscription-detail");
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // Elements
-      const subscriptionsSection = document.getElementById('subscriptions');
-      const subscriptionDetailSection = document.getElementById('subscription-detail');
+        // Subscription detail elements
+        const subscriptionTopic = document.getElementById("subscription-topic");
+        const subscriptionHub = document.getElementById("subscription-hub");
+        const subscriptionCallback = document.getElementById("subscription-callback");
+        const subscriptionCreated = document.getElementById("subscription-created");
+        const subscriptionExpires = document.getElementById("subscription-expires");
+        const subscriptionLease = document.getElementById("subscription-lease");
+        const subscriptionVerified = document.getElementById("subscription-verified");
+        const subscriptionRenewed = document.getElementById("subscription-renewed");
+        const subscriptionFallback = document.getElementById("subscription-fallback");
+        const subscriptionErrorCount = document.getElementById("subscription-error-count");
+        const subscriptionLastError = document.getElementById("subscription-last-error");
+        const subscriptionUserCallback = document.getElementById(
+          "subscription-user-callback",
+        );
 
-      // Subscription detail elements
-      const subscriptionTopic = document.getElementById('subscription-topic');
-      const subscriptionHub = document.getElementById('subscription-hub');
-      const subscriptionCallback = document.getElementById('subscription-callback');
-      const subscriptionCreated = document.getElementById('subscription-created');
-      const subscriptionExpires = document.getElementById('subscription-expires');
-      const subscriptionLease = document.getElementById('subscription-lease');
-      const subscriptionVerified = document.getElementById('subscription-verified');
-      const subscriptionRenewed = document.getElementById('subscription-renewed');
-      const subscriptionFallback = document.getElementById('subscription-fallback');
-      const subscriptionErrorCount = document.getElementById('subscription-error-count');
-      const subscriptionLastError = document.getElementById('subscription-last-error');
-      const subscriptionUserCallback = document.getElementById('subscription-user-callback');
+        // Action buttons
+        const backToSubscriptionsBtn = document.getElementById("back-to-subscriptions");
 
-      // Action buttons
-      const backToSubscriptionsBtn = document.getElementById('back-to-subscriptions');
+        // Current subscription data
+        let currentSubscription = null;
 
-      // Current subscription data
-      let currentSubscription = null;
+        // Load subscriptions on page load
+        loadSubscriptions();
 
-      // Load subscriptions on page load
-      loadSubscriptions();
+        // Event listeners
+        backToSubscriptionsBtn.addEventListener("click", showSubscriptionsList);
 
-      // Event listeners
-      backToSubscriptionsBtn.addEventListener('click', showSubscriptionsList);
+        // Functions
+        function loadSubscriptions() {
+          const tableBody = document.getElementById("subscriptions-table-body");
+          tableBody.innerHTML =
+            '<tr><td colspan="5" class="loading-message">Loading subscriptions...</td></tr>';
 
-      // Functions
-      function loadSubscriptions() {
-        const tableBody = document.getElementById('subscriptions-table-body');
-        tableBody.innerHTML = '<tr><td colspan="5" class="loading-message">Loading subscriptions...</td></tr>';
-
-        fetch('/api/admin/subscriptions')
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-          })
-          .then(subscriptions => {
-            if (subscriptions.length === 0) {
-              tableBody.innerHTML = '<tr><td colspan="5" class="empty-message">No subscriptions found</td></tr>';
-              return;
-            }
-
-            // Sort subscriptions by expiration date
-            subscriptions.sort((a, b) => {
-              return new Date(a.expires).getTime() - new Date(b.expires).getTime();
-            });
-
-            tableBody.innerHTML = subscriptions.map(subscription => {
-              const now = new Date();
-              const expires = new Date(subscription.expires);
-              const isExpired = expires < now;
-
-              let statusClass = subscription.verified ? 'success-badge' : 'warning-badge';
-              let statusText = subscription.verified ? 'Verified' : 'Pending';
-
-              if (isExpired) {
-                statusClass = 'error-badge';
-                statusText = 'Expired';
+          fetch("/api/admin/subscriptions")
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+              }
+              return response.json();
+            })
+            .then((subscriptions) => {
+              if (subscriptions.length === 0) {
+                tableBody.innerHTML =
+                  '<tr><td colspan="5" class="empty-message">No subscriptions found</td></tr>';
+                return;
               }
 
-              // Format the topic URL to be shorter if needed
-              const topicDisplay = subscription.topic.length > 40
-                ? subscription.topic.substring(0, 37) + '...'
-                : subscription.topic;
+              // Sort subscriptions by expiration date
+              subscriptions.sort((a, b) => {
+                return new Date(a.expires).getTime() - new Date(b.expires).getTime();
+              });
 
-              // Format the expiration time
-              let expiresDisplay = 'Expired';
-              if (!isExpired) {
-                const diffMs = expires.getTime() - now.getTime();
-                const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-                const diffHours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+              tableBody.innerHTML = subscriptions.map((subscription) => {
+                const now = new Date();
+                const expires = new Date(subscription.expires);
+                const isExpired = expires < now;
 
-                if (diffDays > 0) {
-                  expiresDisplay = `${diffDays}d ${diffHours}h`;
-                } else {
-                  expiresDisplay = `${diffHours}h`;
+                let statusClass = subscription.verified ? "success-badge" : "warning-badge";
+                let statusText = subscription.verified ? "Verified" : "Pending";
+
+                if (isExpired) {
+                  statusClass = "error-badge";
+                  statusText = "Expired";
                 }
-              }
 
-              return `
+                // Format the topic URL to be shorter if needed
+                const topicDisplay = subscription.topic.length > 40
+                  ? subscription.topic.substring(0, 37) + "..."
+                  : subscription.topic;
+
+                // Format the expiration time
+                let expiresDisplay = "Expired";
+                if (!isExpired) {
+                  const diffMs = expires.getTime() - now.getTime();
+                  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+                  const diffHours = Math.floor(
+                    (diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+                  );
+
+                  if (diffDays > 0) {
+                    expiresDisplay = `${diffDays}d ${diffHours}h`;
+                  } else {
+                    expiresDisplay = `${diffHours}h`;
+                  }
+                }
+
+                return `
                 <tr data-id="${subscription.id}">
                   <td title="${subscription.topic}">${topicDisplay}</td>
                   <td>${subscription.hub}</td>
@@ -207,72 +214,76 @@
                   </td>
                 </tr>
               `;
-            }).join('');
+              }).join("");
 
-            // Add event listeners to view buttons
-            document.querySelectorAll('.view-subscription-btn').forEach(button => {
-              button.addEventListener('click', function () {
-                const subscriptionId = this.getAttribute('data-id');
+              // Add event listeners to view buttons
+              document.querySelectorAll(".view-subscription-btn").forEach((button) => {
+                button.addEventListener("click", function () {
+                  const subscriptionId = this.getAttribute("data-id");
 
-                // Find the subscription in the array
-                const subscription = subscriptions.find(s => s.id === subscriptionId);
-                if (subscription) {
-                  showSubscriptionDetails(subscription);
-                }
+                  // Find the subscription in the array
+                  const subscription = subscriptions.find((s) => s.id === subscriptionId);
+                  if (subscription) {
+                    showSubscriptionDetails(subscription);
+                  }
+                });
               });
+            })
+            .catch((error) => {
+              console.error("Error loading subscriptions:", error);
+              tableBody.innerHTML =
+                '<tr><td colspan="5" class="error-message">Error loading subscriptions</td></tr>';
             });
-          })
-          .catch(error => {
-            console.error('Error loading subscriptions:', error);
-            tableBody.innerHTML = '<tr><td colspan="5" class="error-message">Error loading subscriptions</td></tr>';
-          });
-      }
-
-      function showSubscriptionDetails(subscription) {
-        currentSubscription = subscription;
-
-        // Update subscription details
-        subscriptionTopic.textContent = subscription.topic;
-        subscriptionHub.textContent = subscription.hub;
-        subscriptionCallback.textContent = subscription.callbackPath;
-
-        subscriptionCreated.textContent = new Date(subscription.created).toLocaleString();
-        subscriptionExpires.textContent = new Date(subscription.expires).toLocaleString();
-        subscriptionLease.textContent = `${subscription.leaseSeconds} seconds (${Math.floor(subscription.leaseSeconds / 86400)} days)`;
-
-        subscriptionVerified.textContent = subscription.verified ? 'Yes' : 'No';
-        subscriptionVerified.className = subscription.verified ? 'success-badge' : 'warning-badge';
-
-        subscriptionRenewed.textContent = subscription.lastRenewed
-          ? new Date(subscription.lastRenewed).toLocaleString()
-          : 'Never';
-
-        subscriptionFallback.textContent = subscription.usingFallback ? 'Yes' : 'No';
-
-        subscriptionErrorCount.textContent = subscription.errorCount || 0;
-
-        if (subscription.lastError) {
-          subscriptionLastError.textContent = subscription.lastError;
-          subscriptionLastError.className = 'error-badge';
-        } else {
-          subscriptionLastError.textContent = 'None';
-          subscriptionLastError.className = '';
         }
 
-        subscriptionUserCallback.textContent = subscription.userCallbackUrl || 'None';
+        function showSubscriptionDetails(subscription) {
+          currentSubscription = subscription;
 
-        // Show subscription detail section
-        subscriptionsSection.style.display = 'none';
-        subscriptionDetailSection.style.display = 'block';
-      }
+          // Update subscription details
+          subscriptionTopic.textContent = subscription.topic;
+          subscriptionHub.textContent = subscription.hub;
+          subscriptionCallback.textContent = subscription.callbackPath;
 
-      function showSubscriptionsList() {
-        subscriptionsSection.style.display = 'block';
-        subscriptionDetailSection.style.display = 'none';
-        currentSubscription = null;
-      }
-    });
-  </script>
-</body>
+          subscriptionCreated.textContent = new Date(subscription.created).toLocaleString();
+          subscriptionExpires.textContent = new Date(subscription.expires).toLocaleString();
+          subscriptionLease.textContent = `${subscription.leaseSeconds} seconds (${
+            Math.floor(subscription.leaseSeconds / 86400)
+          } days)`;
 
+          subscriptionVerified.textContent = subscription.verified ? "Yes" : "No";
+          subscriptionVerified.className = subscription.verified
+            ? "success-badge"
+            : "warning-badge";
+
+          subscriptionRenewed.textContent = subscription.lastRenewed
+            ? new Date(subscription.lastRenewed).toLocaleString()
+            : "Never";
+
+          subscriptionFallback.textContent = subscription.usingFallback ? "Yes" : "No";
+
+          subscriptionErrorCount.textContent = subscription.errorCount || 0;
+
+          if (subscription.lastError) {
+            subscriptionLastError.textContent = subscription.lastError;
+            subscriptionLastError.className = "error-badge";
+          } else {
+            subscriptionLastError.textContent = "None";
+            subscriptionLastError.className = "";
+          }
+
+          subscriptionUserCallback.textContent = subscription.userCallbackUrl || "None";
+
+          // Show subscription detail section
+          subscriptionsSection.style.display = "none";
+          subscriptionDetailSection.style.display = "block";
+        }
+
+        function showSubscriptionsList() {
+          subscriptionsSection.style.display = "block";
+          subscriptionDetailSection.style.display = "none";
+          currentSubscription = null;
+        }
+      });
+    </script>
+  </body>
 </html>

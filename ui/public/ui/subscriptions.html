@@ -1,200 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Subscriptions - Super Duper Feeder</title>
+    <link rel="stylesheet" href="/ui/styles.css">
+    <style>
+      .subscriptions-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f5f5f5;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manage Subscriptions - Super Duper Feeder</title>
-  <link rel="stylesheet" href="/ui/styles.css">
-  <style>
-    .subscriptions-container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 20px;
-      background-color: #f5f5f5;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
+      .subscription-card {
+        background-color: white;
+        border-radius: 4px;
+        padding: 15px;
+        margin-bottom: 15px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
 
-    .subscription-card {
-      background-color: white;
-      border-radius: 4px;
-      padding: 15px;
-      margin-bottom: 15px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    }
+      .subscription-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
 
-    .subscription-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
+      .subscription-title {
+        font-weight: bold;
+        font-size: 18px;
+        color: var(--secondary-color);
+      }
 
-    .subscription-title {
-      font-weight: bold;
-      font-size: 18px;
-      color: var(--secondary-color);
-    }
+      .subscription-status {
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 14px;
+      }
 
-    .subscription-status {
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 14px;
-    }
+      .status-active {
+        background-color: #dff0d8;
+        color: #3c763d;
+      }
 
-    .status-active {
-      background-color: #dff0d8;
-      color: #3c763d;
-    }
+      .status-pending {
+        background-color: #fcf8e3;
+        color: #8a6d3b;
+      }
 
-    .status-pending {
-      background-color: #fcf8e3;
-      color: #8a6d3b;
-    }
+      .status-expired {
+        background-color: #f2dede;
+        color: #a94442;
+      }
 
-    .status-expired {
-      background-color: #f2dede;
-      color: #a94442;
-    }
+      .subscription-details {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
 
-    .subscription-details {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
+      .detail-item {
+        margin-bottom: 5px;
+      }
 
-    .detail-item {
-      margin-bottom: 5px;
-    }
+      .detail-label {
+        font-weight: bold;
+        color: var(--secondary-color);
+      }
 
-    .detail-label {
-      font-weight: bold;
-      color: var(--secondary-color);
-    }
+      .subscription-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+      }
 
-    .subscription-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
+      .action-button {
+        padding: 6px 12px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+      }
 
-    .action-button {
-      padding: 6px 12px;
-      border-radius: 4px;
-      border: none;
-      cursor: pointer;
-      font-size: 14px;
-    }
+      .renew-button {
+        background-color: #4caf50;
+        color: white;
+      }
 
-    .renew-button {
-      background-color: #4CAF50;
-      color: white;
-    }
+      .unsubscribe-button {
+        background-color: #e74c3c;
+        color: white;
+      }
 
-    .unsubscribe-button {
-      background-color: #e74c3c;
-      color: white;
-    }
+      .no-subscriptions {
+        text-align: center;
+        padding: 30px;
+        color: #777;
+      }
 
-    .no-subscriptions {
-      text-align: center;
-      padding: 30px;
-      color: #777;
-    }
+      .loading {
+        text-align: center;
+        padding: 30px;
+        color: #777;
+      }
 
-    .loading {
-      text-align: center;
-      padding: 30px;
-      color: #777;
-    }
+      .error-message {
+        background-color: #f2dede;
+        border: 1px solid #ebccd1;
+        color: #a94442;
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
 
-    .error-message {
-      background-color: #f2dede;
-      border: 1px solid #ebccd1;
-      color: #a94442;
-      padding: 15px;
-      border-radius: 4px;
-      margin-bottom: 20px;
-    }
-  </style>
-</head>
+  <body>
+    <header>
+      <h1>Super Duper Feeder</h1>
+      <p>A Spec compliant WebSub/PubSubHubbub service</p>
+      <nav>
+        <a href="/ui/index.html">Home</a>
+        <a href="/ui/subscribe.html">Subscribe</a>
+        <a href="/ui/unsubscribe.html">Unsubscribe</a>
+        <a href="/ui/subscriptions.html" class="active">Manage Subscriptions</a>
+        <a href="/admin/index.html">Admin Panel</a>
+      </nav>
+    </header>
 
-<body>
-  <header>
-    <h1>Super Duper Feeder</h1>
-    <p>A Spec compliant WebSub/PubSubHubbub service</p>
-    <nav>
-      <a href="/ui/index.html">Home</a>
-      <a href="/ui/subscribe.html">Subscribe</a>
-      <a href="/ui/unsubscribe.html">Unsubscribe</a>
-      <a href="/ui/subscriptions.html" class="active">Manage Subscriptions</a>
-      <a href="/admin/index.html">Admin Panel</a>
-    </nav>
-  </header>
+    <main>
+      <section>
+        <h2>Manage Subscriptions</h2>
+        <p>View and manage your active WebSub subscriptions.</p>
 
-  <main>
-    <section>
-      <h2>Manage Subscriptions</h2>
-      <p>View and manage your active WebSub subscriptions.</p>
+        <div class="subscriptions-container">
+          <div id="error-container" class="error-message" style="display: none"></div>
 
-      <div class="subscriptions-container">
-        <div id="error-container" class="error-message" style="display: none;"></div>
-
-        <div id="subscriptions-list">
-          <div class="loading">Loading subscriptions...</div>
+          <div id="subscriptions-list">
+            <div class="loading">Loading subscriptions...</div>
+          </div>
         </div>
-      </div>
-    </section>
-  </main>
+      </section>
+    </main>
 
-  <footer>
-    <p>Super Duper Feeder - A WebSub/PubSubHubbub service</p>
-  </footer>
+    <footer>
+      <p>Super Duper Feeder - A WebSub/PubSubHubbub service</p>
+    </footer>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const subscriptionsList = document.getElementById('subscriptions-list');
-      const errorContainer = document.getElementById('error-container');
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const subscriptionsList = document.getElementById("subscriptions-list");
+        const errorContainer = document.getElementById("error-container");
 
-      // This is a placeholder for demonstration purposes
-      // In a real implementation, you would fetch subscriptions from the server
-      function loadSubscriptions() {
-        // Simulating loading delay
-        setTimeout(() => {
-          // This is where you would normally fetch subscriptions from an API
-          // For now, we'll just show a message that this feature is not yet implemented
-          errorContainer.textContent = 'The subscription management API is not yet implemented. This UI is a placeholder for future functionality.';
-          errorContainer.style.display = 'block';
-          subscriptionsList.innerHTML = `
+        // This is a placeholder for demonstration purposes
+        // In a real implementation, you would fetch subscriptions from the server
+        function loadSubscriptions() {
+          // Simulating loading delay
+          setTimeout(() => {
+            // This is where you would normally fetch subscriptions from an API
+            // For now, we'll just show a message that this feature is not yet implemented
+            errorContainer.textContent =
+              "The subscription management API is not yet implemented. This UI is a placeholder for future functionality.";
+            errorContainer.style.display = "block";
+            subscriptionsList.innerHTML = `
             <div class="no-subscriptions">
               <p>No subscriptions to display.</p>
               <p>You can create a new subscription using the <a href="/ui/subscribe.html">Subscribe</a> page.</p>
             </div>
           `;
-        }, 1000);
-      }
-
-      // Function to render a subscription card (for future implementation)
-      function renderSubscriptionCard(subscription) {
-        const now = new Date();
-        const expires = new Date(subscription.expires);
-        const isExpired = expires < now;
-        const isPending = !subscription.verified;
-
-        let statusClass = 'status-active';
-        let statusText = 'Active';
-
-        if (isExpired) {
-          statusClass = 'status-expired';
-          statusText = 'Expired';
-        } else if (isPending) {
-          statusClass = 'status-pending';
-          statusText = 'Pending Verification';
+          }, 1000);
         }
 
-        return `
+        // Function to render a subscription card (for future implementation)
+        function renderSubscriptionCard(subscription) {
+          const now = new Date();
+          const expires = new Date(subscription.expires);
+          const isExpired = expires < now;
+          const isPending = !subscription.verified;
+
+          let statusClass = "status-active";
+          let statusText = "Active";
+
+          if (isExpired) {
+            statusClass = "status-expired";
+            statusText = "Expired";
+          } else if (isPending) {
+            statusClass = "status-pending";
+            statusText = "Pending Verification";
+          }
+
+          return `
           <div class="subscription-card" data-id="${subscription.id}">
             <div class="subscription-header">
               <div class="subscription-title">${subscription.topic}</div>
@@ -224,12 +224,11 @@
             </div>
           </div>
         `;
-      }
+        }
 
-      // Load subscriptions when the page loads
-      loadSubscriptions();
-    });
-  </script>
-</body>
-
+        // Load subscriptions when the page loads
+        loadSubscriptions();
+      });
+    </script>
+  </body>
 </html>

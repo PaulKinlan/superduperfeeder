@@ -1,6 +1,7 @@
 Project Name: Super Duper Feeder
 
-Description: A Spec compliant WebSub/PubSubHubbub service that allows users to subscribe to RSS feeds and get notified when new content is available.
+Description: A Spec compliant WebSub/PubSubHubbub service that allows users to subscribe to RSS
+feeds and get notified when new content is available.
 
 UI: The UI should be a simple page that describes how to use the REST endpoints
 
