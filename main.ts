@@ -6,7 +6,6 @@ import { getDatabase } from "./utils/database.ts";
 
 // Import routes
 import router from "./routes/index.ts";
-import adminRouter from "./routes/admin.ts";
 
 // Import services
 import { WebhookService } from "./services/webhook.ts";
@@ -51,8 +50,6 @@ app.use(async (ctx: Context, next: Next) => {
 // Apply routers
 app.use(router.routes());
 app.use(router.allowedMethods());
-app.use(adminRouter.routes());
-app.use(adminRouter.allowedMethods());
 
 // Start the server
 const port = config.port || 8000;
