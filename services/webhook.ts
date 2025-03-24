@@ -43,7 +43,7 @@ export class WebhookService {
                 `No verification token for callback ${existingCallback.id} overwriting`
               );
               existingCallback.verified = true;
-              db.userCallbacks.update(existingCallback);
+              await db.userCallbacks.update(existingCallback);
               pendingVerification = false;
             } else {
               await WebhookService.sendVerificationRequest(existingCallback);
